@@ -1,5 +1,17 @@
 require File.join(File.dirname(__FILE__), 'user.rb')
+require File.join(File.dirname(__FILE__), 'subway.rb')
 
-user = User.new(1234567890)
+file = "subway.txt"
 
-user.visit(1, 15)
+subway = Subway.new()
+File.open(file, 'r') do |file|
+
+end
+
+puts "altogether there are #{subway.lines.length} lines"
+subway.lines.each do |line|
+	puts "#{line.name}"
+	line.stations.each do |station|
+		puts "#{station.index}, #{station.name}"
+	end
+end
