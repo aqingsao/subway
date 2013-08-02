@@ -1,7 +1,7 @@
-require File.join(File.dirname(__FILE__), 'subway.rb')
+require File.expand_path(File.dirname(__FILE__), '../subway.rb')
 
 input = 'original.txt'
-output = 'subway.txt'
+output = '../subway.txt'
 
 def parseStation(station)
 	station.split("-").collect{|e|e.strip}
