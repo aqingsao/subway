@@ -23,7 +23,7 @@ File.open(input, "r") do |file|
 	 		else
 	 			stations = str.split("-").collect{|e|e.strip}
 	 			stations.each do |s|
-	 				@line.addStation(subway.nextStation(s))
+	 				@line.addStation(Station.new(subway.nextStationIndex(s), s))
 	 			end
 	 			puts "line station #{stations}"
 	 		end

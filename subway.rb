@@ -7,14 +7,11 @@ class Subway
 	def addLine(line)
 		@lines.push line
 	end
-	def nextStation(stationName)
-		Station.new(getStationIndex(stationName), stationName)
-	end
-	private
-	def getStationIndex(stationName)
+	def nextStationIndex(stationName)
 		station = getStationByName(stationName)
 		station ==nil ? @stationIndex+=1 : station.index
 	end
+	private
 	def getStationByName(stationName)
 		line = @lines.detect{|line| line.contains(stationName)}
 		line.getStationByName(stationName) unless line.nil?
