@@ -55,31 +55,27 @@ end
 subway = Subway.new
 newLine = true;
 File.open(input, "r") do |file|  
- 	while str=file.gets.strip!
+ 	while str=file.gets
+	 	str.strip!
  		if(str.empty?)
  			newLine = true;
+	 		puts "\n"
  		else
 	 		if newLine
 	 			newLine = false;
 	 			@line = Line.new(str);
 	 			subway.addLine @line
+	 			# puts "line name #{@line.name}"
 	 		else
 	 			stations = str.split("-").collect{|e|e.strip}
 	 			stations.each do |s|
 	 				@line.addStation(subway.nextStation(s))
 	 			end
-	 			# puts "line station #{@lineStation}"
+	 			# puts "line station #{stations}"
 	 		end
  		end
  	end 
 end  
-
-subway.lines.each do |line|
-	puts line.name
-	line.stations.each do |s|
-		puts "#{s.index}, #{s.name}"
-	end
-end
 
 File.open(output, "w") do |file|  
 	subway.lines.each do |line|
