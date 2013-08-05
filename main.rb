@@ -26,11 +26,14 @@ end
 
 file = "subway.txt"
 subway = loadSubway(file)
-puts "altogether there are #{subway.lines.length} lines"
-subway.lines.each do |line|
-	puts "#{line.name}"
-	line.stations.each do |station|
-		puts "#{station.index}, #{station.name}"
-	end
-	puts "\n"
-end
+# puts "altogether there are #{subway.lines.length} lines"
+# subway.lines.each do |line|
+# 	puts "#{line.name}"
+# 	line.stations.each do |station|
+# 		puts "#{station.index}, #{station.name}"
+# 	end
+# 	puts "\n"
+# end
+
+user = User.new(13456, subway.route())
+

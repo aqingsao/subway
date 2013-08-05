@@ -1,7 +1,7 @@
 class Subway
 	attr_reader :lines
-	def initialize()
-		@lines = []
+	def initialize(lines = [])
+		@lines = lines
 		@stationIndex = 0
 	end
 	def addLine(line)
@@ -10,6 +10,10 @@ class Subway
 	def nextStationIndex(stationName)
 		station = getStationByName(stationName)
 		station ==nil ? @stationIndex+=1 : station.index
+	end
+	def route(from, to)
+		lines = []
+		Route.new(lines)
 	end
 	private
 	def getStationByName(stationName)
@@ -20,9 +24,9 @@ end
 
 class Line
 	attr_reader :name, :stations
-	def initialize(name)
+	def initialize(name, stations = [])
 		@name = name;
-		@stations = []
+		@stations = stations
 	end
 	def addStation(station)
 		@stations.push station
@@ -39,5 +43,17 @@ class Station
 	attr_reader :index, :name
 	def initialize(index, name)
 		@index, @name = index, name
+	end
+end
+
+class Route
+	def initialize(lines)
+		@lines = lines
+	end
+
+	def stationsCount
+		count = 0;
+		@lines.each{|line| count += line.stations.length}
+		count
 	end
 end

@@ -7,8 +7,8 @@ LOGGER.formatter = proc { |severity, datetime, progname, msg|
 }
 
 class User
-	def initialize(cardNo)
-		@cardNo = cardNo
+	def initialize(cardNo, location, office)
+		@cardNo, @location, @office = cardNo, location, office
 	end
 
 	def visit(from, to)
