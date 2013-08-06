@@ -8,10 +8,6 @@ class Subway
 	def addLine(line)
 		@lines.push line
 	end
-	def nextStationIndex(stationName)
-		station = getStationByName(stationName)
-		station ==nil ? @stationIndex+=1 : station.index
-	end
 	def route(from, to)
 		lines = []
 		Route.new(lines)
@@ -19,14 +15,9 @@ class Subway
 	def containsStation(stationName)
 		@lines.any?{|line| line.containsStation(stationName)}
 	end
-	def currentStationIndex
-		indices = @lines.collect{|line| line.stations.collect{|station| station.index}.max}.max
+	def maxStationIndex
+		indices = @lines.collect{|line| line.stations.collect{|station| station.index}.max}.max{|a, b| a.nil? ? b : (b.nil? ? a : (a <=> b))}
 		indices.nil? ? 0 : indices
-	end
-	private
-	def getStationByName(stationName)
-		line = @lines.detect{|line| line.containsStation(stationName)}
-		line.getStationByName(stationName) unless line.nil?
 	end
 end
 
@@ -36,6 +27,7 @@ class Line
 		@name, @stations = name, stations;
 	end
 	def addStation(station)
+		puts "add #{station.index}: #{station.name} to line #{name}"
 		@stations.push station
 	end
 	def getStationByName(stationName)
@@ -43,6 +35,10 @@ class Line
 	end
 	def containsStation(stationName)
 		@stations.any?{|station| station.name == stationName}
+	end
+	def maxStationIndex
+		result = @stations.collect{|station| station.index}.max
+		result.nil? ? 0 : result
 	end
 end
 
