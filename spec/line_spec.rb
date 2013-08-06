@@ -4,7 +4,8 @@ require File.join(File.dirname(__FILE__), "../subway")
 
 describe Line do
 	before (:each) do
-		@line1 = Line.new("1号线", [Station.new(1, "s1")])
+		@station = Station.new(1, "s1")
+		@line1 = Line.new("1号线", [@station])
 	end
 
 	describe "containsStation" do
@@ -25,6 +26,15 @@ describe Line do
 		end
 		it	"should return 10 when there is 2 stations with index 1 and 10" do
 			expect(Line.new("1号线", [Station.new(1, "s0"), Station.new(10, "s10")]).maxStationIndex).to eq(10)
+		end
+	end
+
+	describe "getStation" do
+		it "should return nil when line does not contain a station" do
+			expect(@line1.getStation("unknown station")).to be_nil
+		end
+		it "should return station when line does contain a station" do
+			expect(@line1.getStation("s1")).to eq(@station)
 		end
 	end
 end

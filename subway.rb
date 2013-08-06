@@ -15,6 +15,10 @@ class Subway
 	def containsStation(stationName)
 		@lines.any?{|line| line.containsStation(stationName)}
 	end
+	def getStation(stationName)
+		line = @lines.detect{|line| line.containsStation(stationName)}
+		line.getStation(stationName) unless line.nil?
+	end
 	def maxStationIndex
 		result = @lines.collect{|line| line.maxStationIndex}.max
 		result.nil? ? 0 : result
@@ -30,7 +34,7 @@ class Line
 		puts "add #{station.index}: #{station.name} to line #{name}"
 		@stations.push station
 	end
-	def getStationByName(stationName)
+	def getStation(stationName)
 		@stations.detect {|station| station.name == stationName}
 	end
 	def containsStation(stationName)
