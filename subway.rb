@@ -54,6 +54,10 @@ class Edge
 	def initialize(from, to)
 		@from, @to = from, to
 	end
+
+	def eql?(other)
+		((self.from.eql? other.from) && (self.to.eql? other.to)) || ((self.from.eql? other.to) && (self.to.eql? other.from))
+	end
 end
 
 class Route
