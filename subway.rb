@@ -61,11 +61,18 @@ class Edge
 end
 
 class Route
-	attr_reader :lines
-	def initialize(lines)
-		@lines = lines
+	attr_reader :edges
+	def initialize(edges = [])
+		@edges = edges
 	end
-
+	def ==(other)
+		return false unless self.edges.length == other.edges.length
+		result = true;
+		self.edges.each_with_index do |e, i|
+			result = false unless (e == other.edges[i])
+		end
+		result
+	end
 	def stationsCount
 		count = 0;
 		@lines.each{|line| count += line.stations.length}
