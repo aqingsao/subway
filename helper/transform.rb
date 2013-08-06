@@ -24,7 +24,7 @@ File.open(input, "r") do |file|
 	 			stations = str.split("-").collect{|e|e.strip}
 	 			stations.each do |s|
 	 				puts "will add station: #{s}"
-	 				@line.addStation(subway.containsStation(s) ? subway.getStation(s) : Station.new(subway.maxStationIndex() + 1, s)) 
+	 				@line.addStation(subway.containsStation(s) ? subway.getStation(s).asTransformed : Station.new(subway.maxStationIndex() + 1, s)) 
 	 			end
 	 			puts "line station #{stations}"
 	 		end

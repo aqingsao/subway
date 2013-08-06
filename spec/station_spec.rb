@@ -26,9 +26,7 @@ describe Station do
 			expect(Station.new(0, "s0").transformed).to be_false
 		end
 		it "should return true when a station is set to betransformed" do
-			station = Station.new(0, "s0")
-			station.transformed= true
-			expect(station.transformed).to be_true
+			expect(Station.new(0, "s0").asTransformed.transformed).to be_true
 		end
 	end
 end

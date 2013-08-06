@@ -45,10 +45,13 @@ class Line
 end
 
 class Station
-	attr_reader :index, :name
-	attr_accessor :transformed
+	attr_reader :index, :name, :transformed
 	def initialize(index, name)
 		@index, @name, @transformed = index, name, false
+	end
+	def asTransformed
+		@transformed = true
+		self
 	end
 	def ==(other)
 		self.index == other.index && self.name == other.name
