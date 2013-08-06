@@ -10,15 +10,15 @@ describe Edge do
 		@edge0 = Edge.new(@station0, @station1)
 		@edge1 = Edge.new(@station1, @station2)
 	end
-	describe 'eql?' do
+	describe '==' do
 		it 'should return true when edge compares with itself' do
-			expect(@edge0.eql? @edge0).to be_true
+			expect(@edge0.== @edge0).to be_true
 		end
 		it 'should return true when edge compares with other which has same stations' do
-			expect(@edge0.eql? Edge.new(@station1, @station0)).to be_true
+			expect(@edge0.== Edge.new(@station1, @station0)).to be_true
 		end
 		it 'should return false when edge compares with other which has different stations' do
-			expect(@edge0.eql? @edge1).to be_false
+			expect(@edge0.== @edge1).to be_false
 		end
 	end
 end

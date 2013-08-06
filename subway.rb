@@ -44,7 +44,7 @@ class Station
 	def initialize(index, name)
 		@index, @name = index, name
 	end
-	def eql?(other)
+	def ==(other)
 		self.index == other.index && self.name == other.name
 	end
 end
@@ -55,8 +55,8 @@ class Edge
 		@from, @to = from, to
 	end
 
-	def eql?(other)
-		((self.from.eql? other.from) && (self.to.eql? other.to)) || ((self.from.eql? other.to) && (self.to.eql? other.from))
+	def ==(other)
+		((self.from == other.from) && (self.to== other.to)) || ((self.from== other.to) && (self.to== other.from))
 	end
 end
 
