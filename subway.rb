@@ -20,8 +20,8 @@ class Subway
 		@lines.any?{|line| line.containsStation(stationName)}
 	end
 	def currentStationIndex
-		indices = @lines.collect{|line| line.stations.collect{|station| station.index}.max}
-		indices.empty? ? 0 : indices.max
+		indices = @lines.collect{|line| line.stations.collect{|station| station.index}.max}.max
+		indices.nil? ? 0 : indices
 	end
 	private
 	def getStationByName(stationName)

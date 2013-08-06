@@ -28,5 +28,8 @@ describe Subway do
 		it	"should return 10 when there is 2 stations with index 1 and 10" do
 			expect(Subway.new([Line.new("1号线", [Station.new(1, "s0")]), Line.new("2号线", [Station.new(10, "s10")])]).currentStationIndex).to eq(10)
 		end
+		it	"should return 0 when there are 2 emtpy lines" do
+			expect(Subway.new([Line.new("1号线"), Line.new("2号线")]).currentStationIndex).to eq(0)
+		end
 	end
 end
