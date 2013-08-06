@@ -16,8 +16,8 @@ class Subway
 		@lines.any?{|line| line.containsStation(stationName)}
 	end
 	def maxStationIndex
-		indices = @lines.collect{|line| line.stations.collect{|station| station.index}.max}.max{|a, b| a.nil? ? b : (b.nil? ? a : (a <=> b))}
-		indices.nil? ? 0 : indices
+		result = @lines.collect{|line| line.maxStationIndex}.max
+		result.nil? ? 0 : result
 	end
 end
 
