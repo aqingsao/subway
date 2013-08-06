@@ -44,9 +44,20 @@ class Station
 	def initialize(index, name)
 		@index, @name = index, name
 	end
+	def eql?(other)
+		self.index == other.index && self.name == other.name
+	end
+end
+
+class Edge
+	attr_reader :from, :to
+	def initialize(from, to)
+		@from, @to = from, to
+	end
 end
 
 class Route
+	attr_reader :lines
 	def initialize(lines)
 		@lines = lines
 	end
