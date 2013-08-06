@@ -2,8 +2,6 @@ class Subway
 	attr_reader :lines
 	def initialize(lines = [])
 		@lines = lines
-
-		@stationIndex = 0
 	end
 	def addLine(line)
 		@lines.push line
@@ -48,8 +46,9 @@ end
 
 class Station
 	attr_reader :index, :name
+	attr_accessor :transformed
 	def initialize(index, name)
-		@index, @name = index, name
+		@index, @name, @transformed = index, name, false
 	end
 	def ==(other)
 		self.index == other.index && self.name == other.name

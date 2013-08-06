@@ -20,4 +20,15 @@ describe Station do
 			expect([@station0, @station1].include? Station.new(0, "s0")).to be_true
 		end
 	end
+
+	describe "transformed" do
+		it "should return false when a station is not a transform station" do
+			expect(Station.new(0, "s0").transformed).to be_false
+		end
+		it "should return true when a station is set to betransformed" do
+			station = Station.new(0, "s0")
+			station.transformed= true
+			expect(station.transformed).to be_true
+		end
+	end
 end
