@@ -5,14 +5,13 @@ require File.join(File.dirname(__FILE__), "../subway")
 describe Subway do
 	before (:each) do
 		@station1 = Station.new(1, "s1")
-		@line1 = Line.new("1号线", [Station.new(0, "s0"), @station1, Station.new(2, "s2"), Station.new(3, "s3")])
-		@line2 = Line.new("2号线", [Station.new(10, "s10"), Station.new(2, "s1"), Station.new(11, "s11")])
-		@subway = Subway.new([@line1, @line2])
+		@line1 = Line.new("1号线", [@station1])
+		@subway = Subway.new([@line1])
 	end
 
 	describe "containsStation" do
 		it	"should return true when subway contains a station" do
-			expect(@subway.containsStation("s0")).to be_true
+			expect(@subway.containsStation("s1")).to be_true
 		end
 		it	"should return false when subway does not contain a station" do
 			expect(@subway.containsStation("unknown station")).to be_false
@@ -40,6 +39,45 @@ describe Subway do
 		end
 		it "should return station when line does contain a station" do
 			expect(@subway.getStation("s1")).to eq(@station1)
+		end
+	end
+
+	describe "addStation" do
+		before :each do
+			@station1 = Station.new(1, "s1")
+			@line1 = Line.new("1号线", [@station1])
+			@station2 = Station.new(2, "s2")
+			@line2 = Line.new("2号线", [@station2])
+			@subway = Subway.new([@line1, @line2])
+		end
+
+		it "add station to a line successfully" do
+			station = Station.new(4, "s4")
+			@subway.addStation(station, @line1)
+			expect(@line1.containsStation(station.name)).to be_true
+			expect(@line2.containsStation(station.name)).to be_false
+		end
+		it "will mark station as transformed if it's already contained in another line" do
+			@subway.addStation(@station1, @line2)
+			expect(@line2.containsStation(@station1.name)).to be_true
+			expect(@station1.transformed).to be_true
+		end
+		it "will not mark station as transformed if it's contained in self line but not in other line" do
+			@subway.addStation(@station2, @line2)
+			expect(@line2.containsStation(@station2.name)).to be_true
+			expect(@station2.transformed).to be_false
+		end
+	end
+
+	describe 'route' do
+		before (:each) do
+			@station1 = Station.new(1, "s1")
+			@station10 = Station.new(10, "s10")
+			@line1 = Line.new("1号线", [@station1, Station.new(2, "s2"), Station.new(3, "s3")])
+			@line2 = Line.new("2号线", [@station10, Station.new(11, "s11")])
+			@subway = Subway.new([@line1, @line2])
+		end
+		it	"" do
 		end
 	end
 end

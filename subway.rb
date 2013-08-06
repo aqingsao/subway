@@ -17,6 +17,10 @@ class Subway
 		line = @lines.detect{|line| line.containsStation(stationName)}
 		line.getStation(stationName) unless line.nil?
 	end
+	def addStation(station, line)
+		station.transformed= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
+		line.addStation station
+	end
 	def maxStationIndex
 		result = @lines.collect{|line| line.maxStationIndex}.max
 		result.nil? ? 0 : result
@@ -45,13 +49,10 @@ class Line
 end
 
 class Station
-	attr_reader :index, :name, :transformed
+	attr_reader :index, :name
+	attr_accessor :transformed
 	def initialize(index, name)
 		@index, @name, @transformed = index, name, false
-	end
-	def asTransformed
-		@transformed = true
-		self
 	end
 	def ==(other)
 		self.index == other.index && self.name == other.name
