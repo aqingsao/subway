@@ -36,7 +36,7 @@ startTime = Time.new
 while(not (remaining = users.find_all{|user| !user.finished}).empty?)
 	remaining.each do |user|
 		user.enter if user.readyToEnter(startTime)
-		user.out if user.readyToOut(startTime)
+		user.leave if user.readyToLeave(startTime)
 	end
 	sleep 1
 end

@@ -16,12 +16,12 @@ end
 class User
 	def initialize(from, to, enterTime=5, card=Card.new)
 		@card, @from, @to, @offTime = card, from, to, enterTime
-		@entered, @outed = false
-		@enterTime, @outTime = enterTime, enterTime + 3 * 15 * 1
+		@entered, @left = false
+		@enterTime, @leaveTime = enterTime, enterTime + 3 * 15 * 1
 	end
 
 	def finished
-		@entered && @outed
+		@entered && @left
 	end
 	def enter
 		LOGGER.info "card #{@card.number} entered station #{@from.name} with amount #{@card.amount}"
@@ -30,13 +30,13 @@ class User
 	def readyToEnter(startTime)
 		!@entered && (Time.now - startTime >= @enterTime)
 	end
-	def out
+	def leave
 		@card.amount = @card.amount - 2
-		LOGGER.info "card #{@card.number} got out station #{@from.name} with amount #{@card.amount}"
-		@outed = true
+		LOGGER.info "card #{@card.number} left station #{@from.name} with amount #{@card.amount}"
+		@left = true
 	end
-	def readyToOut(startTime)
-		(@entered && !@outed) &&(Time.now - startTime >= @outTime)
+	def readyToLeave(startTime)
+		(@entered && !@left) &&(Time.now - startTime >= @leaveTime)
 	end
 end
 
