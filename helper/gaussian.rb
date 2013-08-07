@@ -38,3 +38,17 @@ class AmountGenerator
     (amount * 10).ceil()/10.0
   end
 end
+
+class CardNoGenerator
+  @@firstIndex=0
+  @@lastIndex = 0
+  def CardNoGenerator.next
+    @@firstIndex+=1
+    if @@firstIndex >999
+      @@firstIndex = 0 
+      @@lastIndex += 1
+    end
+    @@lastIndex = 0 if @@lastIndex > 999
+    sprintf("1%03d%05d%03d%05d", @@firstIndex,rand(100000), @@lastIndex, rand(100000))
+  end
+end

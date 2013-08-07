@@ -7,7 +7,9 @@ LOGGER.formatter = proc { |severity, datetime, progname, msg|
 }
 
 class Card
-	def initialize(number, amount)
+	attr_reader :number
+	attr_accessor :amount
+	def initialize(number=CardNoGenerator.next, amount=AmountGenerator.next)
 		@number, @amount = number, amount
 	end
 end
@@ -22,7 +24,7 @@ class User
 		@entered && @outed
 	end
 	def enter
-		LOGGER.info "#{@card.number} entered station #{@from.name} with amount #{@card.amount}"
+		LOGGER.info "card #{@card.number} entered station #{@from.name} with amount #{@card.amount}"
 		@entered = true
 	end
 	def readyToEnter(startTime)
@@ -30,7 +32,7 @@ class User
 	end
 	def out
 		@card.amount = @card.amount - 2
-		LOGGER.info "#{@cardNo} got out station #{@from.name} with amount #{@card.amount}"
+		LOGGER.info "card #{@card.number} got out station #{@from.name} with amount #{@card.amount}"
 		@outed = true
 	end
 	def readyToOut(startTime)
