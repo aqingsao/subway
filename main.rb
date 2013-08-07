@@ -28,14 +28,15 @@ end
 file = "subway.txt"
 subway = loadSubway(file)
 
-users = Users.new
-users << User.new(Card.new(), subway.lines[0].stations[0], subway.lines[0].stations[10])
-startTime = Time.new
+userCount = 1000
+factory = UserFactory.new subway.lines
+users = factory.nonTransfered((userCount * 0.1).ceil)
 
-while(not (remaining = users.remaining).empty?)
+startTime = Time.new
+while(not (remaining = users.find_all{|user| !user.finished}).empty?)
 	remaining.each do |user|
 		user.enter if user.readyToEnter(startTime)
 		user.out if user.readyToOut(startTime)
 	end
-	sleep 5
+	sleep 1
 end

@@ -14,7 +14,7 @@ class Card
 	end
 end
 class User
-	def initialize(card, from, to, enterTime=5)
+	def initialize(from, to, enterTime=5, card=Card.new)
 		@card, @from, @to, @offTime = card, from, to, enterTime
 		@entered, @outed = false
 		@enterTime, @outTime = enterTime, enterTime + 3 * 15 * 1
@@ -36,15 +36,22 @@ class User
 		@outed = true
 	end
 	def readyToOut(startTime)
-		(@entered && !@outed) && (Time.now - startTime >= @outTime)
+		(@entered && !@outed) &&(Time.now - startTime >= @outTime)
 	end
 end
 
-class Users < Array
-	def remaining
-		return self.find_all{|user| !user.finished}
+class UserFactory
+	def initialize(lines=[])
+		@lines = lines
 	end
-	def allFinished
-		self.all? {|user| user.finished}
+	def nonTransfered(count)
+		count.times.each_with_object([]) do |i, users|
+			line = randLine
+			users<<User.new(line.stations[0], line.stations[10])
+		end
+	end
+	private 
+	def randLine
+		@lines[rand(@lines.length)]
 	end
 end
