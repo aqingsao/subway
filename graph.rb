@@ -63,7 +63,6 @@ class Graph < Array
       end
       break unless distances[nearest_vertex] # Infinity
       if dst and nearest_vertex == dst
-        p "#{distances}"
         return distances[dst]
       end
       neighbors = vertices.neighbors(nearest_vertex)

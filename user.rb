@@ -14,10 +14,12 @@ class Card
 	end
 end
 class User
-	def initialize(from, to, enterTime=1, card=Card.new)
-		@card, @from, @to, @offTime = card, from, to, enterTime
+	@@timePerStation = 2.5 * 60; // 
+	def initialize(from, to, distance, enterTime=1)
+		@from, @to, @distance = from, to, distance
+		@enterTime, @leaveTime = enterTime, enterTime + distance 
+		@card = Card.new
 		@entered, @left = false
-		@enterTime, @leaveTime = enterTime, enterTime + 3 
 	end
 
 	def finished
@@ -41,26 +43,25 @@ class User
 end
 
 class UserFactory
-	def initialize(lines=[])
-		@lines = lines
+	def initialize(subway = Subway.new)
+		@subway = subway
 	end
 	def nonTransfered(count)
 		count.times.each_with_object([]) do |i, users|
 			from, to = randomStation(randomLine)
-			users<<User.new(from, to)
+			distance = @subway.graph.dijkstra(from.index, to.index)
+			users<<User.new(from, to, distance)
 		end
 	end
 	private 
 	def randomLine
-		@lines[rand(@lines.length)]
+		@subway.lines[rand(@subway.lines.length)]
 	end
 	def randomStation(line)
 		from = to = rand(line.stations.length)
 		to = rand(line.stations.length) until to != from
 		to = to -2 if(to < from && to >= 2)
 		to = to +2 if(to>from && to <line.stations.length-2)
-		puts line.stations
-		puts "#{from}, #{to}"
 		return line.stations[from], line.stations[to]
 	end
 end

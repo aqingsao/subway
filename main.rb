@@ -29,7 +29,7 @@ file = "subway.txt"
 subway = loadSubway(file)
 
 userCount = 1000
-factory = UserFactory.new subway.lines
+factory = UserFactory.new subway
 users = factory.nonTransfered((userCount * 0.1).ceil)
 
 startTime = Time.new
