@@ -14,10 +14,10 @@ class Card
 	end
 end
 class User
-	def initialize(from, to, enterTime=5, card=Card.new)
+	def initialize(from, to, enterTime=1, card=Card.new)
 		@card, @from, @to, @offTime = card, from, to, enterTime
 		@entered, @left = false
-		@enterTime, @leaveTime = enterTime, enterTime + 3 * 15 * 1
+		@enterTime, @leaveTime = enterTime, enterTime + 3 
 	end
 
 	def finished
@@ -46,12 +46,21 @@ class UserFactory
 	end
 	def nonTransfered(count)
 		count.times.each_with_object([]) do |i, users|
-			line = randLine
-			users<<User.new(line.stations[0], line.stations[10])
+			from, to = randomStation(randomLine)
+			users<<User.new(from, to)
 		end
 	end
 	private 
-	def randLine
+	def randomLine
 		@lines[rand(@lines.length)]
+	end
+	def randomStation(line)
+		from = to = rand(line.stations.length)
+		to = rand(line.stations.length) until to != from
+		to = to -2 if(to < from && to >= 2)
+		to = to +2 if(to>from && to <line.stations.length-2)
+		puts line.stations
+		puts "#{from}, #{to}"
+		return line.stations[from], line.stations[to]
 	end
 end
