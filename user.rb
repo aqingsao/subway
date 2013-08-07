@@ -6,25 +6,31 @@ LOGGER.formatter = proc { |severity, datetime, progname, msg|
   "#{datetime}: #{msg}\n"
 }
 
+class Card
+	def initialize(number, amount)
+		@number, @amount = number, amount
+	end
+end
 class User
-	def initialize(cardNo, from, to, enterTime=5)
-		@cardNo, @from, @to, @offTime = cardNo, from, to, enterTime
+	def initialize(card, from, to, enterTime=5)
+		@card, @from, @to, @offTime = card, from, to, enterTime
 		@entered, @outed = false
-		@enterTime, @outTime = enterTime, enterTime + 3 * 15 * 60
+		@enterTime, @outTime = enterTime, enterTime + 3 * 15 * 1
 	end
 
 	def finished
 		@entered && @outed
 	end
 	def enter
-		LOGGER.info "#{@cardNo} entered station #{@from.name}"
+		LOGGER.info "#{@card.number} entered station #{@from.name} with amount #{@card.amount}"
 		@entered = true
 	end
 	def readyToEnter(startTime)
 		!@entered && (Time.now - startTime >= @enterTime)
 	end
 	def out
-		LOGGER.info "#{@cartNo} got out station #{@from.name}"
+		@card.amount = @card.amount - 2
+		LOGGER.info "#{@cardNo} got out station #{@from.name} with amount #{@card.amount}"
 		@outed = true
 	end
 	def readyToOut(startTime)

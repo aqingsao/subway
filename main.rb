@@ -1,5 +1,6 @@
 require File.join(File.dirname(__FILE__), 'user.rb')
 require File.join(File.dirname(__FILE__), 'subway.rb')
+require File.join(File.dirname(__FILE__), 'helper/gaussian.rb')
 
 def loadSubway(file)
 	subway = Subway.new
@@ -28,7 +29,7 @@ file = "subway.txt"
 subway = loadSubway(file)
 
 users = Users.new
-users << User.new("12345678", subway.lines[0].stations[0], subway.lines[0].stations[10])
+users << User.new(Card.new("1234", AmountGenerator.next), subway.lines[0].stations[0], subway.lines[0].stations[10])
 startTime = Time.new
 
 while(not (remaining = users.remaining).empty?)
