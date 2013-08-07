@@ -26,16 +26,15 @@ end
 
 file = "subway.txt"
 subway = loadSubway(file)
-# puts "altogether there are #{subway.lines.length} lines"
-# subway.lines.each do |line|
-# 	puts "#{line.name}"
-# 	line.stations.each do |station|
-# 		puts "#{station.index}, #{station.name}"
-# 	end
-# 	puts "\n"
-# end
 
-p subway.graph
-p subway.graph.length_between(2, 1)
-p subway.graph.neighbors(1)
-p subway.graph.dijkstra(1, 5)
+users = Users.new
+users << User.new("12345678", subway.lines[0].stations[0], subway.lines[0].stations[10])
+startTime = Time.new
+
+while(not (remaining = users.remaining).empty?)
+	remaining.each do |user|
+		user.enter if user.readyToEnter(startTime)
+		user.out if user.readyToOut(startTime)
+	end
+	sleep 5
+end
