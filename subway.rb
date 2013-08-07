@@ -1,5 +1,7 @@
+require File.join(File.dirname(__FILE__), 'graph.rb')
+
 class Subway
-	attr_reader :lines
+	attr_reader :lines, :graph
 	def initialize(lines = [])
 		@lines = lines
 	end
@@ -28,8 +30,17 @@ class Subway
 				station.transformed= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
 			end
 		end
+		@graph = Graph.new
+		@lines.collect{|line| line.stations.collect{|station| station.index}}.flatten.uniq.each do |vertex|
+			@graph << vertex
+		end
+		@lines.each do |line|
+			line.stations.each_with_index do |station, index|
+				@graph.connect_mutually(station.index, line.stations[index+1].index, 1) unless (index >= line.stations.length-1)
+			end
+		end
+		self
 	end
-	private
 end
 
 class Line
@@ -38,7 +49,6 @@ class Line
 		@name, @stations = name, stations;
 	end
 	def addStation(station)
-		puts "add #{station.index}: #{station.name} to line #{name}"
 		@stations.push station
 	end
 	def getStation(stationName)
@@ -64,28 +74,28 @@ class Station
 	end
 end
 
-class Edge
-	attr_reader :from, :to
-	def initialize(from, to)
-		@from, @to = from, to
-	end
+# class Edge
+# 	attr_reader :from, :to
+# 	def initialize(from, to)
+# 		@from, @to = from, to
+# 	end
 
-	def ==(other)
-		(self.from == other.from) && (self.to== other.to)
-	end
-end
+# 	def ==(other)
+# 		(self.from == other.from) && (self.to== other.to)
+# 	end
+# end
 
-class Route
-	attr_reader :edges
-	def initialize(edges = [])
-		@edges = edges
-	end
-	def ==(other)
-		return false unless self.edges.length == other.edges.length
-		result = true;
-		self.edges.each_with_index do |e, i|
-			result = false unless (e == other.edges[i])
-		end
-		result
-	end
-end
+# class Route
+# 	attr_reader :edges
+# 	def initialize(edges = [])
+# 		@edges = edges
+# 	end
+# 	def ==(other)
+# 		return false unless self.edges.length == other.edges.length
+# 		result = true;
+# 		self.edges.each_with_index do |e, i|
+# 			result = false unless (e == other.edges[i])
+# 		end
+# 		result
+# 	end
+# end

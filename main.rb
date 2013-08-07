@@ -16,12 +16,12 @@ def loadSubway(file)
 		 			subway.addLine @line
 		 		else
 		 			index, name = str.split(" ").collect{|e|e.strip}
-		 			@line.addStation(Station.new(index, name))
+		 			@line.addStation(Station.new(index.to_i, name))
 		 		end
 	 		end
 	 	end 
 	end  
-	subway
+	subway.afterBuild()
 end
 
 file = "subway.txt"
@@ -35,5 +35,7 @@ subway = loadSubway(file)
 # 	puts "\n"
 # end
 
-user = User.new(13456, subway.route())
-
+p subway.graph
+p subway.graph.length_between(2, 1)
+p subway.graph.neighbors(1)
+p subway.graph.dijkstra(1, 5)
