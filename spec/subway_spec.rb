@@ -70,15 +70,25 @@ describe Subway do
 		end
 	end
 
-	describe 'route' do
+	describe 'calculateRoute' do
 		before (:each) do
 			@station1 = Station.new(1, "s1")
-			@station10 = Station.new(10, "s10")
-			@line1 = Line.new("1号线", [@station1, Station.new(2, "s2"), Station.new(3, "s3")])
-			@line2 = Line.new("2号线", [@station10, Station.new(11, "s11")])
+			@station2 = Station.new(2, "s2")
+			@station3 = Station.new(3, "s3")
+			@station11 = Station.new(11, "s11")
+			@station12 = Station.new(12, "s12")
+			@line1 = Line.new("1号线", [@station1, @station2, @station3])
+			@line2 = Line.new("2号线", [@station11, @station12])
 			@subway = Subway.new([@line1, @line2])
 		end
-		it	"" do
+		it	"should return route with empty edges when from station equals to station" do
+			route = @subway.calculateRoute(@station1.index, @station1.index)
+			expect(route.edges.length).to eq(0)
+		end
+		it	"should return route with 1 edge when from station sits next to to station" do
+			route = @subway.calculateRoute(@station1.index, @station2.index)
+			expect(route.edges.length).to eq(1)
+			route.edges[0].should eq(Edge.new(@station1, @station2))
 		end
 	end
 end

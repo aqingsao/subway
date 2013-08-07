@@ -6,7 +6,7 @@ class Subway
 	def addLine(line)
 		@lines.push line
 	end
-	def route(from, to)
+	def calculateRoute(from, to)
 		lines = []
 		Route.new(lines)
 	end
@@ -17,14 +17,19 @@ class Subway
 		line = @lines.detect{|line| line.containsStation(stationName)}
 		line.getStation(stationName) unless line.nil?
 	end
-	def addStation(station, line)
-		station.transformed= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
-		line.addStation station
-	end
 	def maxStationIndex
 		result = @lines.collect{|line| line.maxStationIndex}.max
 		result.nil? ? 0 : result
 	end
+
+	def afterBuild
+		@lines.each do |line|
+			line.stations.each do |station|
+				station.transformed= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
+			end
+		end
+	end
+	private
 end
 
 class Line
@@ -66,7 +71,7 @@ class Edge
 	end
 
 	def ==(other)
-		((self.from == other.from) && (self.to== other.to)) || ((self.from== other.to) && (self.to== other.from))
+		(self.from == other.from) && (self.to== other.to)
 	end
 end
 
