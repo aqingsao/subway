@@ -48,9 +48,24 @@ class UserFactory
 	end
 	def nonTransfered(count)
 		count.times.each_with_object([]) do |i, users|
-			from, to = randomStation(randomLine)
-			distance = @subway.graph.dijkstra(from.index, to.index)
-			users<<User.new(from, to, distance)
+			fromStation, toStation = randomStationsOn(randomLine)
+			distance = @subway.graph.dijkstra(fromStation.index, toStation.index)
+			users<<User.new(fromStation, toStation, distance)
+		end
+	end
+	def transferOnce(count)
+		count.times.each_with_object([]) do |i, users|
+			fromLine = randomLine
+			fromStation = randomStation(fromLine) while(fromStation.nil? || fromStation.transformed)
+			puts "From line #{fromLine.name} station #{fromStation.name}"
+			puts fromLine.stations.collect{|s| [s.name, s.transformed]}.join(", ")
+			transferStation = fromLine.stations.find{|station| station.transformed && station != fromStation}
+			puts "transfer station #{fromStation.name}"
+			toLine = transferStation.lines.find {|line| line!=fromLine}
+			toStation = randomStation(toLine) while(toStation.nil? || toStation == transferStation)
+
+			distance = @subway.graph.dijkstra(fromStation.index, toStation.index)
+			users<<User.new(fromStation, toStation, distance)
 		end
 	end
 	private 
@@ -58,6 +73,10 @@ class UserFactory
 		@subway.lines[rand(@subway.lines.length)]
 	end
 	def randomStation(line)
+		line.stations[rand(line.stations.length)]
+	end
+
+	def randomStationsOn(line)
 		from = to = rand(line.stations.length)
 		to = rand(line.stations.length) until to != from
 		to = to -2 if(to < from && to >= 2)

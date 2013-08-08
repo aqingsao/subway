@@ -17,7 +17,7 @@ def loadSubway(file)
 		 			subway.addLine @line
 		 		else
 		 			index, name = str.split(" ").collect{|e|e.strip}
-		 			@line.addStation(Station.new(index.to_i, name))
+		 			@line.addStation(subway.containsStation(name) ? subway.getStation(name) : Station.new(index.to_i, name)) 
 		 		end
 	 		end
 	 	end 
@@ -30,7 +30,8 @@ subway = loadSubway(file)
 
 userCount = 1000
 factory = UserFactory.new subway
-users = factory.nonTransfered((userCount * 0.1).ceil)
+users = factory.nonTransfered((userCount * 0.08).ceil)
+users = factory.transferOnce((userCount * 0.4).ceil)
 
 startTime = Time.new
 while(not (remaining = users.find_all{|user| !user.finished}).empty?)

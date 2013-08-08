@@ -49,6 +49,7 @@ class Line
 		@name, @stations = name, stations;
 	end
 	def addStation(station)
+		station.lines << self unless station.lines.include? self
 		@stations.push station
 	end
 	def getStation(stationName)
@@ -61,13 +62,16 @@ class Line
 		result = @stations.collect{|station| station.index}.max
 		result.nil? ? 0 : result
 	end
+	def ==(other)
+		self.name == other.name
+	end
 end
 
 class Station
 	attr_reader :index, :name
-	attr_accessor :transformed
+	attr_accessor :transformed, :lines
 	def initialize(index, name)
-		@index, @name, @transformed = index, name, false
+		@index, @name, @transformed, @lines = index, name, false, []
 	end
 	def ==(other)
 		self.index == other.index && self.name == other.name
