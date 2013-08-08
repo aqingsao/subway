@@ -27,5 +27,8 @@ describe Graph do
 		it	"should return [1,3,4] for route 1 to 4" do
 			expect(@graph.route(1, 4)).to eq([1, 3, 4])
 		end
+		it	"should return [1,3,6] for route 1 to 6" do
+			expect(@graph.route(1, 6)).to eq([1, 3, 6])
+		end
 	end
 end

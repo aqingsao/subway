@@ -30,7 +30,8 @@ class Subway
 			end
 		end
 		@graph = Graph.new
-		@lines.collect{|line| line.stations.collect{|station| station.index}}.flatten.uniq.each do |vertex|
+		stations = stations()
+		stations.collect{|station| station.index}.each do |vertex|
 			@graph << vertex
 		end
 		@lines.each do |line|
@@ -43,9 +44,15 @@ class Subway
 				station.lines << line unless station.lines.include? line
 			end
 		end
-		@lines.each do |line|
-
+		routes = {}
+		stations.each do |station|
+			stations.each do |another|
+				if(station != another)
+					routes[[station.index, another.index]] = @graph.route(station.index, another.index)
+				end
+			end
 		end
+		p routes
 		self
 	end
 end

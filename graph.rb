@@ -46,31 +46,49 @@ class Graph < Array
   end
  
   def route(src, dst = nil)
-    distances = {}
-    routes = {}
+    all_routes() if @routes.nil?
+    @routes[src][dst]
+  end
+
+  private
+  def all_routes
     self.each do |vertex|
-      distances[vertex] = nil # Infinity
-      routes[vertex] = [src]
+      routes_for(vertex)
     end
-    distances[src] = 0
+  end
+  def routes_for(src, dst = nil)
+    @distances ||= {}
+    @routes ||= {}
+    @distances[src] ||= {}
+    @routes[src] ||= {}
+    self.each do |vertex|
+      @distances[src][vertex] ||= nil # Infinity
+      @routes[src][vertex] ||= [src]
+    end
+    @distances[src][src] = 0
     vertices = self.clone
+
     until vertices.empty?
       nearest_vertex = vertices.inject do |a, b|
-        next b unless distances[a] 
-        next a unless distances[b]
-        next a if distances[a] < distances[b]
+        next b unless @distances[src][a] 
+        next a unless @distances[src][b]
+        next a if @distances[src][a] < @distances[src][b]
         b
       end
-      break unless distances[nearest_vertex] # Infinity
+      p "--------nearest_vertex: #{nearest_vertex}"
+      break unless @distances[src][nearest_vertex] # Infinity
       if dst and nearest_vertex == dst
-        return routes[dst]
+        return @routes[src][dst]
       end
       neighbors = vertices.neighbors(nearest_vertex)
+      p "nearest_vertex: #{nearest_vertex}, distances[#{src}][#{nearest_vertex}]: #{@distances[src][nearest_vertex]},neighbors: #{neighbors}"
       neighbors.each do |vertex|
-        alt = distances[nearest_vertex] + vertices.length_between(nearest_vertex, vertex)
-        if distances[vertex].nil? || alt < distances[vertex]
-          distances[vertex] = alt 
-          routes[vertex] = routes[nearest_vertex] + [vertex]
+        alt = @distances[src][nearest_vertex] + vertices.length_between(nearest_vertex, vertex)
+        p "vertex: #{vertex}, vertices.length_between(#{nearest_vertex}, #{vertex}): #{vertices.length_between(nearest_vertex, vertex)}, alt: #{alt}"
+        if @distances[src][vertex].nil? || alt < @distances[src][vertex]
+          @distances[src][vertex] = alt 
+          @routes[src][vertex] = @routes[src][nearest_vertex] + [vertex]
+          p "set @distances[#{src}][#{vertex}] to #{@distances[src][vertex]}, routes: #{@routes[src][vertex]}"
           # decrease-key v in Q # ???
         end
       end
@@ -79,7 +97,7 @@ class Graph < Array
     if dst
       return nil
     else
-      return routes
+      return @routes
     end
   end
 end
