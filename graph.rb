@@ -45,7 +45,7 @@ class Graph < Array
     nil
   end
  
-  def dijkstra(src, dst = nil)
+  def route(src, dst = nil)
     distances = {}
     routes = {}
     self.each do |vertex|

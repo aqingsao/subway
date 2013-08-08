@@ -19,13 +19,18 @@ describe Graph do
 		# p graph
 		# p graph.length_between(2, 1)
 		# p graph.neighbors(1)
-		# p graph.dijkstra(1, 5)	
+		# p graph.route(1, 5)	
 	end
 
-	describe "dijkstra" do
-		it	"should return 7 when vertext 1 and 2 is connected by 7" do
-			expect(@graph.dijkstra(1, 4)).should eq([1, 3, 4])
-			# expect(@graph.dijkstra(1, 2)).to eq(7)
+	describe "route" do
+		it	"should return [1] for route 1 to 1" do
+			expect(@graph.route(1, 1)).to eq([1])
+		end
+		it	"should return [1,2] for route 1 to 2" do
+			expect(@graph.route(1, 2)).to eq([1, 2])
+		end
+		it	"should return [1,3,4] for route 1 to 4" do
+			expect(@graph.route(1, 4)).to eq([1, 3, 4])
 		end
 	end
 end
