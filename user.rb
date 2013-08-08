@@ -65,6 +65,18 @@ class UserFactory
 			users<<User.new(fromStation, toStation, distance)
 		end
 	end
+	def transferTwice(count)
+		count.times.each_with_object([]) do |i, users|
+			fromLine = randomLine
+			fromStation = randomStation(fromLine) while(fromStation.nil? || fromStation.transfer)
+
+			toLine = random(fromLine.transferableLines)
+			toStation = randomStation(toLine) while(toStation.nil? || fromLine.containsStation(toStation.name))
+
+			distance = @subway.graph.dijkstra(fromStation.index, toStation.index)
+			users<<User.new(fromStation, toStation, distance)
+		end
+	end
 	private 
 	def random(array)
 		array[rand(array.length)]

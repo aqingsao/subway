@@ -47,16 +47,16 @@ class Graph < Array
  
   def dijkstra(src, dst = nil)
     distances = {}
-    previouses = {}
+    routes = {}
     self.each do |vertex|
       distances[vertex] = nil # Infinity
-      previouses[vertex] = nil
+      routes[vertex] = [src]
     end
     distances[src] = 0
     vertices = self.clone
     until vertices.empty?
       nearest_vertex = vertices.inject do |a, b|
-        next b unless distances[a]
+        next b unless distances[a] 
         next a unless distances[b]
         next a if distances[a] < distances[b]
         b
@@ -68,9 +68,9 @@ class Graph < Array
       neighbors = vertices.neighbors(nearest_vertex)
       neighbors.each do |vertex|
         alt = distances[nearest_vertex] + vertices.length_between(nearest_vertex, vertex)
-        if distances[vertex].nil? or alt < distances[vertex]
-          distances[vertex] = alt
-          previouses[vertices] = nearest_vertex
+        if distances[vertex].nil? || alt < distances[vertex]
+          distances[vertex] = alt 
+          routes[vertex] = routes[nearest_vertex] + [vertex]
           # decrease-key v in Q # ???
         end
       end
@@ -83,21 +83,3 @@ class Graph < Array
     end
   end
 end
-
-
-graph = Graph.new
-(1..6).each {|node| graph.push node }
-graph.connect_mutually 1, 2, 7
-graph.connect_mutually 1, 3, 9
-graph.connect_mutually 1, 6, 14
-graph.connect_mutually 2, 3, 10
-graph.connect_mutually 2, 4, 15
-graph.connect_mutually 3, 4, 11
-graph.connect_mutually 3, 6, 2
-graph.connect_mutually 4, 5, 6
-graph.connect_mutually 5, 6, 9
- 
-# p graph
-# p graph.length_between(2, 1)
-# p graph.neighbors(1)
-# p graph.dijkstra(1, 5)
