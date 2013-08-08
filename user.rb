@@ -15,9 +15,9 @@ class Card
 end
 class User
 	@@timePerStation = 2.5 * 60; // 
-	def initialize(from, to, distance, enterTime=1)
-		@from, @to, @distance = from, to, distance
-		@enterTime, @leaveTime = enterTime, enterTime + distance 
+	def initialize(from, to, route, enterTime=1)
+		@from, @to, @distance = from, to, route.length
+		@enterTime, @leaveTime = enterTime, enterTime + @distance 
 		@card = Card.new
 		@entered, @left = false
 	end
@@ -49,8 +49,8 @@ class UserFactory
 	def nonTransfered(count)
 		count.times.each_with_object([]) do |i, users|
 			fromStation, toStation = randomStationsOn(randomLine)
-			distance = @subway.graph.dijkstra(fromStation.index, toStation.index)
-			users<<User.new(fromStation, toStation, distance)
+			route = @subway.graph.dijkstra(fromStation.index, toStation.index)
+			users<<User.new(fromStation, toStation, route)
 		end
 	end
 	def transferOnce(count)
@@ -61,8 +61,8 @@ class UserFactory
 			toLine = random(fromLine.transferableLines)
 			toStation = randomStation(toLine) while(toStation.nil? || fromLine.containsStation(toStation.name))
 
-			distance = @subway.graph.dijkstra(fromStation.index, toStation.index)
-			users<<User.new(fromStation, toStation, distance)
+			route = @subway.graph.dijkstra(fromStation.index, toStation.index)
+			users<<User.new(fromStation, toStation, route)
 		end
 	end
 	def transferTwice(count)
@@ -73,8 +73,8 @@ class UserFactory
 			toLine = random(fromLine.transferableLines)
 			toStation = randomStation(toLine) while(toStation.nil? || fromLine.containsStation(toStation.name))
 
-			distance = @subway.graph.dijkstra(fromStation.index, toStation.index)
-			users<<User.new(fromStation, toStation, distance)
+			route = @subway.graph.dijkstra(fromStation.index, toStation.index)
+			users<<User.new(fromStation, toStation, route)
 		end
 	end
 	private 

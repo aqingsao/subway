@@ -24,7 +24,7 @@ describe Graph do
 
 	describe "dijkstra" do
 		it	"should return 7 when vertext 1 and 2 is connected by 7" do
-			@graph.dijkstra(1, 4)
+			expect(@graph.dijkstra(1, 4)).should eq([1, 3, 4])
 			# expect(@graph.dijkstra(1, 2)).to eq(7)
 		end
 	end

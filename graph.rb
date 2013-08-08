@@ -63,7 +63,7 @@ class Graph < Array
       end
       break unless distances[nearest_vertex] # Infinity
       if dst and nearest_vertex == dst
-        return distances[dst]
+        return routes[dst]
       end
       neighbors = vertices.neighbors(nearest_vertex)
       neighbors.each do |vertex|
@@ -79,7 +79,7 @@ class Graph < Array
     if dst
       return nil
     else
-      return distances
+      return routes
     end
   end
 end
