@@ -22,7 +22,7 @@ def loadSubway(file)
 	 		end
 	 	end 
 	end  
-	subway.afterBuild()
+	subway.marshal()
 end
 
 file = "subway.txt"
