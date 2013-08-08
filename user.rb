@@ -26,7 +26,7 @@ class User
 		@entered && @left
 	end
 	def enter
-		LOGGER.info "user entered station #{@from.name} with card number #{@card.number} and amount #{@card.amount}"
+		LOGGER.info sprintf("user entered station #{@from.name} with card number #{@card.number} and amount %.2f", @card.amount)
 		@entered = true
 	end
 	def readyToEnter(startTime)
@@ -34,7 +34,7 @@ class User
 	end
 	def leave
 		@card.amount = @card.amount - 2
-		LOGGER.info "user left station #{@from.name} with card number #{@card.number} and amount #{@card.amount}"
+		LOGGER.info sprintf("user left station #{@from.name} with card number #{@card.number} and amount %.2f", @card.amount)
 		@left = true
 	end
 	def readyToLeave(startTime)
