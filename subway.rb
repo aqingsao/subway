@@ -19,6 +19,9 @@ class Subway
 		result = @lines.collect{|line| line.maxStationIndex}.max
 		result.nil? ? 0 : result
 	end
+	def stations
+		@lines.each_with_object([]){|line, stations| line.stations.each{|s| stations<<s} }.uniq
+	end
 
 	def marshal
 		@lines.each do |line|
@@ -39,6 +42,9 @@ class Subway
 			line.stations.each do |station|
 				station.lines << line unless station.lines.include? line
 			end
+		end
+		@lines.each do |line|
+
 		end
 		self
 	end

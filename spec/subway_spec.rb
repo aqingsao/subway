@@ -43,4 +43,18 @@ describe Subway do
 		end
 	end
 
+	describe "stations" do
+			before (:each) do
+				@station1 = Station.new(1, "s1")
+				@station2 = Station.new(2, "s2")
+				@station3 = Station.new(3, "s3")
+				@line1 = Line.new("1号线", [@station1])
+				@subway = Subway.new([Line.new("1号线", [@station1, @station2]), Line.new("2号线", [@station1, @station3])])
+			end
+
+		it "should return all stations" do
+			expect(@subway.stations.length).to eq(3)
+		end
+	end
+
 end

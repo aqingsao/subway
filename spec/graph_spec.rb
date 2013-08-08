@@ -15,11 +15,6 @@ describe Graph do
 		@graph.connect_mutually 3, 6, 2
 		@graph.connect_mutually 4, 5, 6
 		@graph.connect_mutually 5, 6, 9
-		 
-		# p graph
-		# p graph.length_between(2, 1)
-		# p graph.neighbors(1)
-		# p graph.route(1, 5)	
 	end
 
 	describe "route" do
