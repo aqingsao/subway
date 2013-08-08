@@ -58,26 +58,27 @@ class UserFactory
 			fromLine = randomLine
 			fromStation = randomStation(fromLine) while(fromStation.nil? || fromStation.transfer)
 
-			transferStation = fromLine.stations.find{|station| station.transfer && station != fromStation}
-
-			toLine = transferStation.lines.find {|line| line!=fromLine}
-			toStation = randomStation(toLine) while(toStation.nil? || toStation == transferStation)
+			toLine = random(fromLine.transferableLines)
+			toStation = randomStation(toLine) while(toStation.nil? || fromLine.containsStation(toStation.name))
 
 			distance = @subway.graph.dijkstra(fromStation.index, toStation.index)
 			users<<User.new(fromStation, toStation, distance)
 		end
 	end
 	private 
+	def random(array)
+		array[rand(array.length)]
+	end
 	def randomLine
-		@subway.lines[rand(@subway.lines.length)]
+		random(@subway.lines)
 	end
 	def randomStation(line)
-		line.stations[rand(line.stations.length)]
+		random(line.stations)
 	end
 
 	def randomStationsOn(line)
-		from = to = rand(line.stations.length)
-		to = rand(line.stations.length) until to != from
+		from = rand(line.stations.length)
+		to = rand(line.stations.length) until to !=nil && to != from
 		to = to -2 if(to < from && to >= 2)
 		to = to +2 if(to>from && to <line.stations.length-2)
 		return line.stations[from], line.stations[to]
