@@ -37,4 +37,19 @@ describe Line do
 			expect(@line1.getStation("s1")).to eq(@station)
 		end
 	end
+
+	describe "addStation" do
+		before :each do
+			@station1 = Station.new(1, "s1")
+			@line1 = Line.new("1号线", [@station1])
+			@station2 = Station.new(2, "s2")
+			@line2 = Line.new("2号线", [@station2])
+		end
+
+		it "add station to a line successfully" do
+			station = Station.new(4, "s4")
+			@line1.addStation station
+			expect(@line1.containsStation(station.name)).to be_true
+		end
+	end
 end

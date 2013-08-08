@@ -56,10 +56,10 @@ class UserFactory
 	def transferOnce(count)
 		count.times.each_with_object([]) do |i, users|
 			fromLine = randomLine
-			fromStation = randomStation(fromLine) while(fromStation.nil? || fromStation.transformed)
+			fromStation = randomStation(fromLine) while(fromStation.nil? || fromStation.transfer)
 			puts "From line #{fromLine.name} station #{fromStation.name}"
-			puts fromLine.stations.collect{|s| [s.name, s.transformed]}.join(", ")
-			transferStation = fromLine.stations.find{|station| station.transformed && station != fromStation}
+			puts fromLine.stations.collect{|s| [s.name, s.transfer]}.join(", ")
+			transferStation = fromLine.stations.find{|station| station.transfer && station != fromStation}
 			puts "transfer station #{fromStation.name}"
 			toLine = transferStation.lines.find {|line| line!=fromLine}
 			toStation = randomStation(toLine) while(toStation.nil? || toStation == transferStation)

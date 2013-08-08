@@ -8,10 +8,6 @@ class Subway
 	def addLine(line)
 		@lines.push line
 	end
-	def calculateRoute(from, to)
-		lines = []
-		Route.new(lines)
-	end
 	def containsStation(stationName)
 		@lines.any?{|line| line.containsStation(stationName)}
 	end
@@ -27,7 +23,7 @@ class Subway
 	def afterBuild
 		@lines.each do |line|
 			line.stations.each do |station|
-				station.transformed= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
+				station.transfer= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
 			end
 		end
 		@graph = Graph.new
@@ -69,9 +65,9 @@ end
 
 class Station
 	attr_reader :index, :name
-	attr_accessor :transformed, :lines
+	attr_accessor :transfer, :lines
 	def initialize(index, name)
-		@index, @name, @transformed, @lines = index, name, false, []
+		@index, @name, @transfer, @lines = index, name, false, []
 	end
 	def ==(other)
 		self.index == other.index && self.name == other.name

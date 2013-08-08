@@ -21,14 +21,14 @@ describe Station do
 		end
 	end
 
-	describe "transformed" do
-		it "should return false when a station is not a transform station" do
-			expect(Station.new(0, "s0").transformed).to be_false
+	describe "transfer" do
+		it "should return false when a station is not a transfer station" do
+			expect(Station.new(0, "s0").transfer).to be_false
 		end
-		it "should return true when a station is set to betransformed" do
+		it "should return true when a station is a transfer station" do
 			station = Station.new(0, "s0")
-			station.transformed=true
-			expect(station.transformed).to be_true
+			station.transfer=true
+			expect(station.transfer).to be_true
 		end
 	end
 end
