@@ -1,11 +1,12 @@
 require File.join(File.dirname(__FILE__), 'graph.rb')
 
 class Subway
-	attr_reader :lines, :graph
+	attr_reader :lines, :graph, :routes
 	def initialize(lines = [])
 		@lines = lines
 		@index_stations = {}
 		@name_stations = {}
+		@routes = []
 	end
 	def addLine(line)
 		@lines.push line
@@ -52,10 +53,9 @@ class Subway
 			end
 		end
 
-		@routes = {}
-		@graph.init_routes().each_pair do |key, value|
-			p "#{key}: #{value}"
-			@routes[[getStationByIndex(key[0]), getStationByIndex(key[1])]] = Route.new(value.collect{|index| getStationByIndex(index)})
+		@routes = []
+		@graph.init_routes().each do |route|
+			@routes << Route.new(value.collect{|index| getStationByIndex(index)})
 		end
 		self
 	end

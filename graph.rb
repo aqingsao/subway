@@ -55,7 +55,7 @@ class Graph < Array
     self.each do |vertex|
       routes_for(vertex)
     end
-    @routes
+    @routes.values
   end
 
   private
