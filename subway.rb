@@ -4,6 +4,8 @@ class Subway
 	attr_reader :lines, :graph
 	def initialize(lines = [])
 		@lines = lines
+		@index_stations = {}
+		@name_stations = {}
 	end
 	def addLine(line)
 		@lines.push line
@@ -14,6 +16,9 @@ class Subway
 	def getStation(stationName)
 		line = @lines.detect{|line| line.containsStation(stationName)}
 		line.getStation(stationName) unless line.nil?
+	end
+	def getStationByIndex(index)
+		@index_stations[index]
 	end
 	def maxStationIndex
 		result = @lines.collect{|line| line.maxStationIndex}.max
@@ -27,6 +32,8 @@ class Subway
 		@lines.each do |line|
 			line.stations.each do |station|
 				station.transfer= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
+				@name_stations[station.name] = station
+				@index_stations[station.index] = station
 			end
 		end
 		@graph = Graph.new
@@ -45,16 +52,11 @@ class Subway
 			end
 		end
 
-		routes = @graph.init_routes()
-
-		# stations.each do |station|
-		# 	stations.each do |another|
-		# 		if(station != another)
-		# 			routes[[station.index, another.index]] = @graph.route(station.index, another.index)
-		# 		end
-		# 	end
-		# end
-		p routes
+		@routes = {}
+		@graph.init_routes().each_pair do |key, value|
+			p "#{key}: #{value}"
+			@routes[[getStationByIndex(key[0]), getStationByIndex(key[1])]] = Route.new(value.collect{|index| getStationByIndex(index)})
+		end
 		self
 	end
 end
