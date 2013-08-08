@@ -44,14 +44,16 @@ class Subway
 				station.lines << line unless station.lines.include? line
 			end
 		end
-		routes = {}
-		stations.each do |station|
-			stations.each do |another|
-				if(station != another)
-					routes[[station.index, another.index]] = @graph.route(station.index, another.index)
-				end
-			end
-		end
+
+		routes = @graph.init_routes()
+
+		# stations.each do |station|
+		# 	stations.each do |another|
+		# 		if(station != another)
+		# 			routes[[station.index, another.index]] = @graph.route(station.index, another.index)
+		# 		end
+		# 	end
+		# end
 		p routes
 		self
 	end
@@ -109,17 +111,17 @@ end
 # 	end
 # end
 
-# class Route
-# 	attr_reader :edges
-# 	def initialize(edges = [])
-# 		@edges = edges
-# 	end
-# 	def ==(other)
-# 		return false unless self.edges.length == other.edges.length
-# 		result = true;
-# 		self.edges.each_with_index do |e, i|
-# 			result = false unless (e == other.edges[i])
-# 		end
-# 		result
-# 	end
-# end
+class Route
+	attr_reader :stations
+	def initialize(stations = [])
+		@stations = stations
+	end
+	def ==(other)
+		return false unless self.stations.length == other.stations.length
+		result = true;
+		self.stations.each_with_index do |e, i|
+			result = false unless (e == other.stations[i])
+		end
+		result
+	end
+end
