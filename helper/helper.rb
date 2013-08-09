@@ -52,28 +52,3 @@ class CardNoGenerator
     sprintf("1%03d%05d%03d%05d", @@firstIndex,rand(100000), @@lastIndex, rand(100000))
   end
 end
-
-class SubwayHelper
-  def SubwayHelper.loadSubway(file)
-    subway = Subway.new
-    newLine = true;
-    File.open(file, "r") do |file|  
-      while str=file.gets
-        str.strip!
-        if(str.empty?)
-          newLine = true;
-        else
-          if newLine
-            newLine = false;
-            @line = Line.new(str);
-            subway.addLine @line
-          else
-            number, name = str.split(" ").collect{|e|e.strip}
-            @line.add_station(subway.contains_station(name) ? subway.station_by_name(name).as_transfered : Station.new(number.to_i, name)) 
-          end
-        end
-      end 
-    end  
-    subway.marshal()
-  end
-end

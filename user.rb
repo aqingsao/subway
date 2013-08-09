@@ -14,11 +14,9 @@ class Card
 	end
 end
 class User
-	@@timePerStation = 2.5 * 60; // 
-	def initialize(from, to, route, enterTime=1)
-		@from, @to, @route = from, to, route
-		@enterTime, @leaveTime = enterTime, enterTime + @route.stations.length 
-		@card = Card.new
+	def initialize(route, enterTime=1)
+		@route, @card = route, Card.new
+		@enterTime, @leaveTime = enterTime, enterTime + @route.total_time
 		@entered, @left = false
 	end
 
@@ -46,33 +44,21 @@ class UserFactory
 	def initialize(subway = Subway.new)
 		@subway = subway
 		@graph = Graph.new @subway
-	end
-	def nonTransfered(count)
-		routes = @graph.routes.routes_with_transfer(0)
 
-		count.times.each_with_object([]) do |i, users|
-			route = random(routes)
-			users<<User.new(route.stations.first, route.stations.last, route)
-		end
+		p @graph.routes.length
 	end
-	def transferOnce(count)
-		routes = @subway.routes.routes_with_transfer(1)
+	def users_with_transfer(user_count, transfer_count)
+		routes = @graph.routes.find_all{|route| route.lines.length == transfer_count-1}
 
-		count.times.each_with_object([]) do |i, users|
+		user_count.times.each_with_object([]) do |i, users|
 			route = random(routes)
-			users<<User.new(route.stations.first, route.stations.last, route)
-		end
-	end
-	def transferTwice(count)
-		routes = @subway.routes.routes_with_transfer(2)
-
-		count.times.each_with_object([]) do |i, users|
-			route = random(routes)
-			users<<User.new(route.stations.first, route.stations.last, route)
+			users<<User.new(route)
 		end
 	end
 	private 
 	def random(array)
-		array[rand(array.length)]
+		i = rand(array.length)
+		p  "#{i}" if array[i].nil?
+		array[i]
 	end
 end

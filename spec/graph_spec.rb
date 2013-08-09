@@ -32,4 +32,10 @@ describe Graph do
 			expect(@graph.route(@station3, @station4)).to eq(Route.new [@station3, @station2, @station1, @station4])
 		end
 	end
+
+	describe "routes" do
+		it	"should return [1] for route 1 to 1" do
+			@graph.routes.length.should == 12
+		end
+	end
 end

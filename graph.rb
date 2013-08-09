@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), 'route.rb')
+
 class Graph < Array
   attr_reader :edges
   
@@ -9,7 +11,7 @@ class Graph < Array
     subway.lines.each do |line|
       line.stations.each_with_index do |station, index|
         @vertices << station unless @vertices.include? station
-        connect_mutually(station, line.stations[index+1], 2.5) unless (index >= line.stations.length-1)
+        connect_mutually(station, line.stations[index+1]) unless (index >= line.stations.length-1)
       end
     end
 
@@ -31,7 +33,7 @@ class Graph < Array
     @routes[[src, dst]]
   end
   def routes
-    @routes.values.reject {|route| route.length <= 1}
+    @routes.values.reject {|route| route.nil? || route.stations.length <= 1}
   end
 
   private
