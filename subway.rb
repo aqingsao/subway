@@ -47,7 +47,7 @@ class Subway
 		end
 		@lines.each do |line|
 			line.stations.each_with_index do |station, index|
-				@graph.connect_mutually(station.index, line.stations[index+1].index, 1) unless (index >= line.stations.length-1)
+				@graph.connect_mutually(station.index, line.stations[index+1].index, 2.5) unless (index >= line.stations.length-1)
 			end
 		end
 		@lines.each do |line|

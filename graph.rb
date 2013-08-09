@@ -1,7 +1,7 @@
 class Edge
   attr_accessor :src, :dst, :length
   
-  def initialize(src, dst, length=1)
+  def initialize(src, dst, length=2.5)
     @src = src
     @dst = dst
     @length = length
@@ -15,7 +15,7 @@ class Graph < Array
     @edges = []
   end
   
-  def connect(src, dst, length = 1)
+  def connect(src, dst, length = 2.5)
     unless self.include?(src)
       raise "No such vertex: #{src}"
     end
@@ -25,7 +25,7 @@ class Graph < Array
     @edges.push Edge.new(src, dst, length)
   end
   
-  def connect_mutually(vertex1, vertex2, length = 1)
+  def connect_mutually(vertex1, vertex2, length = 2.5)
     self.connect vertex1, vertex2, length
     self.connect vertex2, vertex1, length
   end
