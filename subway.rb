@@ -35,27 +35,22 @@ class Subway
 	def marshal
 		@lines.each do |line|
 			line.stations.each do |station|
+				station.lines << line unless station.lines.include? line
 				station.transfer= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
 				@name_stations[station.name] = station
 				@index_stations[station.index] = station
 			end
 		end
+
 		@graph = Graph.new
-		stations = stations()
-		stations.collect{|station| station.index}.each do |vertex|
-			@graph << vertex
+		@lines.each do |line|
+			line.stations.each{|station| @graph << station.index}
 		end
 		@lines.each do |line|
 			line.stations.each_with_index do |station, index|
 				@graph.connect_mutually(station.index, line.stations[index+1].index, 2.5) unless (index >= line.stations.length-1)
 			end
 		end
-		@lines.each do |line|
-			line.stations.each do |station|
-				station.lines << line unless station.lines.include? line
-			end
-		end
-
 		@routes = Routes.new
 		@graph.init_routes().each do |route|
 			@routes << Route.new(route.collect{|index| station_by_index(index)})
