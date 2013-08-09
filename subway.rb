@@ -4,8 +4,6 @@ class Subway
 	attr_reader :lines, :graph, :routes
 	def initialize(lines = [])
 		@lines = lines
-		@index_stations = {}
-		@name_stations = {}
 		@routes = Routes.new
 	end
 	def addLine(line)
@@ -15,10 +13,20 @@ class Subway
 		@lines.any?{|line| line.containsStation(station_name)}
 	end
 	def station_by_name(station_name)
-		@name_stations[station_name]
+		@lines.each do |line|
+			line.stations.each do |station|
+				return station if station.name == station_name
+			end
+		end
+		nil
 	end
-	def station_by_index(index)
-		@index_stations[index]
+	def station_by_index(station_index)
+		@lines.each do |line|
+			line.stations.each do |station|
+				return station if station.index == station_index
+			end
+		end
+		nil
 	end
 	def line_by_name(line_name)
 		@lines.find{|line| line.name == line_name}
@@ -36,8 +44,6 @@ class Subway
 			line.stations.each do |station|
 				station.lines << line unless station.lines.include? line
 				station.transfer= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
-				@name_stations[station.name] = station
-				@index_stations[station.index] = station
 			end
 		end
 
