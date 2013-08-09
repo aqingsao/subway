@@ -1,8 +1,8 @@
 class Station
 	attr_reader :index, :name
-	attr_accessor :transfer, :lines
+	attr_accessor :lines
 	def initialize(index, name)
-		@index, @name, @transfer, @lines = index, name, false, []
+		@index, @name, @lines = index, name, []
 	end
 	def ==(other)
 		self.index == other.index && self.name == other.name

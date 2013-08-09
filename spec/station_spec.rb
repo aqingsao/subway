@@ -20,15 +20,4 @@ describe Station do
 			expect([@station0, @station1].include? Station.new(0, "s0")).to be_true
 		end
 	end
-
-	describe "transfer" do
-		it "should return false when a station is not a transfer station" do
-			expect(Station.new(0, "s0").transfer).to be_false
-		end
-		it "should return true when a station is a transfer station" do
-			station = Station.new(0, "s0")
-			station.transfer=true
-			expect(station.transfer).to be_true
-		end
-	end
 end

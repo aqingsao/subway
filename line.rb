@@ -24,7 +24,7 @@ class Line
 	end
 	def transferableLines
 		lines = []
-		@stations.find_all{|station| station.transfer==true}.each do |station|
+		@stations.each do |station|
 			lines = lines + station.lines
 		end
 		lines.uniq - [self]

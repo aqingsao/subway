@@ -40,12 +40,6 @@ class Subway
 	end
 
 	def marshal
-		@lines.each do |line|
-			line.stations.each do |station|
-				station.transfer= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
-			end
-		end
-
 		@graph = Graph.new
 		@lines.each do |line|
 			line.stations.each_with_index do |station, index|
