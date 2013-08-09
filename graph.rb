@@ -65,12 +65,12 @@ class Graph < Array
       neighbors = @neighbors[nearest_vertex]
       # p "nearest_vertex: #{nearest_vertex}, distances[#{src}][#{nearest_vertex}]: #{@distances[src][nearest_vertex]},neighbors: #{neighbors}"
       neighbors.each do |vertex|
-        alt = @distances[[src, nearest_vertex]] + self.length_between(nearest_vertex, vertex)
-        # newRoute =Route.new(@routes[[src, nearest_vertex]].stations + vertex)
+        # alt = @distances[[src, nearest_vertex]] + self.length_between(nearest_vertex, vertex)
+        newRoute =Route.new(@routes[[src, nearest_vertex]].stations + [vertex])
         # p "vertex: #{vertex}, vertices.length_between(#{nearest_vertex}, #{vertex}): #{vertices.length_between(nearest_vertex, vertex)}, alt: #{alt}"
-        if @distances[[src, vertex]].nil? || alt < @distances[[src, vertex]]
-          @distances[[src, vertex]] = alt 
-          @routes[[src, vertex]] = Route.new(@routes[[src, nearest_vertex]].stations + [vertex])
+        if @distances[[src, vertex]].nil? || newRoute.total_time < @distances[[src, vertex]]
+          @distances[[src, vertex]] = newRoute.total_time 
+          @routes[[src, vertex]] = newRoute
         end
       end
       vertices.delete nearest_vertex
