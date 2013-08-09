@@ -134,7 +134,7 @@ class Route
 		end
 		lines << currentLine.first unless currentLine.empty?
 		p "route: #{stations.collect{|station| station.name}}"
-		p "line: #{currentLine.collect{|line| line.name}}"
+		p "line: #{lines.collect{|line| line.name}}"
 
 		lines
 	end
