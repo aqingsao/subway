@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), "spec_helper")
-require File.join(File.dirname(__FILE__), "../subway")
+require File.join(File.dirname(__FILE__), "../station")
 
 describe Station do
 	before (:each) do

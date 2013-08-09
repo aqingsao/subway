@@ -1,6 +1,6 @@
 # encoding: UTF-8
 require File.join(File.dirname(__FILE__), "spec_helper")
-require File.join(File.dirname(__FILE__), "../subway")
+require File.join(File.dirname(__FILE__), "../line")
 
 describe Line do
 	before (:each) do
