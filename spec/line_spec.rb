@@ -38,7 +38,7 @@ describe Line do
 		end
 	end
 
-	describe "addStation" do
+	describe "add_station" do
 		before :each do
 			@station1 = Station.new(1, "s1")
 			@line1 = Line.new("1号线", [@station1])
@@ -48,7 +48,7 @@ describe Line do
 
 		it "add station to a line successfully" do
 			station = Station.new(4, "s4")
-			@line1.addStation station
+			@line1.add_station station
 			expect(@line1.containsStation(station.name)).to be_true
 		end
 	end

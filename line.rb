@@ -6,9 +6,9 @@ class Line
 	def initialize(name, stations = [])
 		@name = name
 		@stations = []
-		stations.each{|station|addStation(station)}
+		stations.each{|station|add_station(station)}
 	end
-	def addStation(station)
+	def add_station(station)
 		@stations.push station
 		station.lines << self unless station.lines.include? self
 	end

@@ -69,7 +69,7 @@ class SubwayHelper
             subway.addLine @line
           else
             index, name = str.split(" ").collect{|e|e.strip}
-            @line.addStation(subway.containsStation(name) ? subway.station_by_name(name) : Station.new(index.to_i, name)) 
+            @line.add_station(subway.containsStation(name) ? subway.station_by_name(name) : Station.new(index.to_i, name)) 
           end
         end
       end 
