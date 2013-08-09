@@ -1,17 +1,24 @@
 class Graph < Array
   attr_reader :edges
   
-  def initialize
+  def initialize(subway)
     @edges = []
     @vertices = []
-    @neighbors = []
-  end
-  
-  def connect_mutually(src, dst, length = 2.5)
-    connect src, dst, length
-    connect dst, src, length
-    @vertices << src unless @vertices.include? src
-    @vertices << dst unless @vertices.include? dst
+    @neighbors = {}
+
+    subway.lines.each do |line|
+      line.stations.each_with_index do |station, index|
+        @vertices << station unless @vertices.include? station
+        connect_mutually(station, line.stations[index+1], 2.5) unless (index >= line.stations.length-1)
+      end
+    end
+
+    @distances = {}
+    @routes = {}
+    @vertices.each do |vertex|
+      routes_for(vertex)
+    end
+    # @routes.values.reject {|route| route.length <= 1}
   end
   
   def length_between(src, dst)
@@ -22,22 +29,17 @@ class Graph < Array
   end
  
   def route(src, dst)
-    init_routes() if @routes.nil?
     @routes[[src, dst]]
-  end
-  def init_routes
-    @distances ||= {}
-    @routes ||= {}
-    @vertices.each do |vertex|
-      routes_for(vertex)
-    end
-    @routes.values.reject {|route| route.length <= 1}
   end
 
   private
-  def connect(src, dst, length = 2.5)
-    @edges.push Edge.new(src, dst, length)
-    @neighbors[src] = [] if @neighbors[src].nil?
+  def connect_mutually(src, dst, length = 2.5)
+    connect(src, dst, length)
+    connect(dst, src, length)
+  end
+  def connect(src, dst, length)
+    @edges.push Edge.new(dst, src, length)
+    @neighbors[src] ||= [] 
     @neighbors[src] << dst
   end
 

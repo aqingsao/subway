@@ -1,4 +1,5 @@
 require File.join(File.dirname(__FILE__), 'graph.rb')
+require File.join(File.dirname(__FILE__), 'route.rb')
 
 class Subway
 	attr_reader :lines, :graph, :routes
@@ -40,16 +41,16 @@ class Subway
 	end
 
 	def marshal
-		@graph = Graph.new
-		@lines.each do |line|
-			line.stations.each_with_index do |station, index|
-				@graph.connect_mutually(station.index, line.stations[index+1].index, 2.5) unless (index >= line.stations.length-1)
-			end
-		end
-		@routes = Routes.new
-		@graph.init_routes().each do |route|
-			@routes << Route.new(route.collect{|index| station_by_index(index)})
-		end
+		# @graph = Graph.new
+		# @lines.each do |line|
+		# 	line.stations.each_with_index do |station, index|
+		# 		@graph.connect_mutually(station.index, line.stations[index+1].index, 2.5) unless (index >= line.stations.length-1)
+		# 	end
+		# end
+		# @routes = Routes.new
+		# @graph.each do |route|
+		# 	@routes << Route.new(route.collect{|index| station_by_index(index)})
+		# end
 		self
 	end
 end

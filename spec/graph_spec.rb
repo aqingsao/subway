@@ -1,34 +1,35 @@
 # encoding: UTF-8
 require File.join(File.dirname(__FILE__), "spec_helper")
 require File.join(File.dirname(__FILE__), "../graph")
+require File.join(File.dirname(__FILE__), "../station")
+require File.join(File.dirname(__FILE__), "../line")
+require File.join(File.dirname(__FILE__), "../subway")
 
 describe Graph do
 	before (:each) do
-		@graph = Graph.new
-		(1..6).each {|node| @graph.push node }
-		@graph.connect_mutually 1, 2, 7
-		@graph.connect_mutually 1, 3, 9
-		@graph.connect_mutually 1, 6, 14
-		@graph.connect_mutually 2, 3, 10
-		@graph.connect_mutually 2, 4, 15
-		@graph.connect_mutually 3, 4, 11
-		@graph.connect_mutually 3, 6, 2
-		@graph.connect_mutually 4, 5, 6
-		@graph.connect_mutually 5, 6, 9
+		@station1 = Station.new(1, "s1")
+		@station2 = Station.new(2, "s2")
+		@station3 = Station.new(3, "s3")
+		@station4 = Station.new(4, "s4")
+		@line1 = Line.new("1号线", [@station1, @station2])
+		@line2 = Line.new("2号线", [@station2, @station3])
+		@line3 = Line.new("3号线", [@station1, @station4])
+		@subway = Subway.new([@line1, @line2, @line3])
+		@graph = Graph.new @subway
 	end
 
 	describe "route" do
 		it	"should return [1] for route 1 to 1" do
-			expect(@graph.route(1, 1)).to eq([1])
+			expect(@graph.route(@station1, @station1)).to eq([@station1])
 		end
 		it	"should return [1,2] for route 1 to 2" do
-			expect(@graph.route(1, 2)).to eq([1, 2])
+			expect(@graph.route(@station1, @station2)).to eq([@station1, @station2])
 		end
-		it	"should return [1,3,4] for route 1 to 4" do
-			expect(@graph.route(1, 4)).to eq([1, 3, 4])
+		it	"should return [1,2,4] for route 1 to 3" do
+			expect(@graph.route(@station1, @station3)).to eq([@station1, @station2, @station3])
 		end
-		it	"should return [1,3,6] for route 1 to 6" do
-			expect(@graph.route(1, 6)).to eq([1, 3, 6])
+		it	"should return [3, 2, 1, 4] for route 3 to 4" do
+			expect(@graph.route(@station3, @station4)).to eq([@station3, @station2, @station1, @station4])
 		end
 	end
 end
