@@ -9,12 +9,12 @@ describe Subway do
 		@subway = Subway.new([@line1]).marshal()
 	end
 
-	describe "containsStation" do
+	describe "contains_station" do
 		it	"should return true when subway contains a station" do
-			expect(@subway.containsStation("s1")).to be_true
+			expect(@subway.contains_station("s1")).to be_true
 		end
 		it	"should return false when subway does not contain a station" do
-			expect(@subway.containsStation("unknown station")).to be_false
+			expect(@subway.contains_station("unknown station")).to be_false
 		end
 	end
 

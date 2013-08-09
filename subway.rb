@@ -10,8 +10,8 @@ class Subway
 	def addLine(line)
 		@lines.push line
 	end
-	def containsStation(station_name)
-		@lines.any?{|line| line.containsStation(station_name)}
+	def contains_station(station_name)
+		@lines.any?{|line| line.stations.any? {|station| station.name == station_name}}
 	end
 	def station_by_name(station_name)
 		@lines.each do |line|

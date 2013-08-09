@@ -8,15 +8,6 @@ describe Line do
 		@line1 = Line.new("1号线", [@station])
 	end
 
-	describe "containsStation" do
-		it	"should return true when subway contains a station" do
-			expect(@line1.containsStation("s1")).to be_true
-		end
-		it	"should return false when subway does not contain a station" do
-			expect(@line1.containsStation("unknown station")).to be_false
-		end
-	end
-
 	describe "maxStationIndex" do
 		it	"should return 0 when there are none stations" do
 			expect(Line.new("1号线").maxStationIndex).to eq(0)
@@ -49,7 +40,7 @@ describe Line do
 		it "add station to a line successfully" do
 			station = Station.new(4, "s4")
 			@line1.add_station station
-			expect(@line1.containsStation(station.name)).to be_true
+			expect(@line1.stations.include? station).to be_true
 		end
 	end
 

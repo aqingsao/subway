@@ -15,9 +15,6 @@ class Line
 	def station_by_name(station_name)
 		@stations.detect {|station| station.name == station_name}
 	end
-	def containsStation(station_name)
-		@stations.any?{|station| station.name == station_name}
-	end
 	def maxStationIndex
 		result = @stations.collect{|station| station.index}.max
 		result.nil? ? 0 : result
