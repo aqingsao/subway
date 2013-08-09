@@ -51,8 +51,8 @@ describe Route do
 			expect(route.lines.length).to eq(1)
 			expect(route.lines[0]).to eq(@line1)
 		end
-		it"should return line1 and line2 when given from station 1 to station 2" do
-			route = Route.new([@station1, @station3])
+		it"should return line1 and line2 when given from station 1 to station 3" do
+			route = Route.new([@station1, @station2, @station3])
 			expect(route.lines.length).to eq(2)
 			expect(route.lines[0]).to eq(@line1)
 			expect(route.lines[1]).to eq(@line2)
@@ -70,9 +70,17 @@ describe Route do
 			route = Route.new([@station1])
 			expect(route.total_time).to eq(0)
 		end
-		it "should return 5.0 when given from station 1 to station 2" do
-			route = Route.new([@station1, @station2], 2.5)
-			expect(route.total_time).to eq(2.5)
+		it "should return 150 when given from station 1 to station 2" do
+			route = Route.new([@station1, @station2], 150)
+			expect(route.total_time).to eq(150)
+		end
+		it"should return  when given from station 1 to station 3" do
+			route = Route.new([@station1, @station2, @station3], 150, 191)
+			expect(route.total_time).to eq(150*2+191)
+		end
+		it"should return line2 and line1 and line3 when given from station 3 to station 4" do			
+			route = Route.new([@station3, @station2, @station1, @station4])
+			expect(route.total_time).to eq(150 * 3 + 191 * 2)
 		end
 	end
 
