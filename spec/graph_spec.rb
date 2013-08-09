@@ -20,16 +20,16 @@ describe Graph do
 
 	describe "route" do
 		it	"should return [1] for route 1 to 1" do
-			expect(@graph.route(@station1, @station1)).to eq([@station1])
+			expect(@graph.route(@station1, @station1)).to eq(Route.new [@station1])
 		end
 		it	"should return [1,2] for route 1 to 2" do
-			expect(@graph.route(@station1, @station2)).to eq([@station1, @station2])
+			expect(@graph.route(@station1, @station2)).to eq(Route.new [@station1, @station2])
 		end
 		it	"should return [1,2,4] for route 1 to 3" do
-			expect(@graph.route(@station1, @station3)).to eq([@station1, @station2, @station3])
+			expect(@graph.route(@station1, @station3)).to eq(Route.new [@station1, @station2, @station3])
 		end
 		it	"should return [3, 2, 1, 4] for route 3 to 4" do
-			expect(@graph.route(@station3, @station4)).to eq([@station3, @station2, @station1, @station4])
+			expect(@graph.route(@station3, @station4)).to eq(Route.new [@station3, @station2, @station1, @station4])
 		end
 	end
 end

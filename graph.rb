@@ -18,7 +18,6 @@ class Graph < Array
     @vertices.each do |vertex|
       routes_for(vertex)
     end
-    # @routes.values.reject {|route| route.length <= 1}
   end
   
   def length_between(src, dst)
@@ -30,6 +29,9 @@ class Graph < Array
  
   def route(src, dst)
     @routes[[src, dst]]
+  end
+  def routes
+    @routes.values.reject {|route| route.length <= 1}
   end
 
   private
@@ -46,7 +48,7 @@ class Graph < Array
   def routes_for(src)
     @vertices.each do |vertex|
       @distances[[src, vertex]] = nil # Infinity
-      @routes[[src, vertex]] = [src]
+      @routes[[src, vertex]] = Route.new [src]
     end
     @distances[[src, src]] = 0
     vertices = @vertices.clone
@@ -67,7 +69,7 @@ class Graph < Array
         # p "vertex: #{vertex}, vertices.length_between(#{nearest_vertex}, #{vertex}): #{vertices.length_between(nearest_vertex, vertex)}, alt: #{alt}"
         if @distances[[src, vertex]].nil? || alt < @distances[[src, vertex]]
           @distances[[src, vertex]] = alt 
-          @routes[[src, vertex]] = @routes[[src, nearest_vertex]] + [vertex]
+          @routes[[src, vertex]] = Route.new(@routes[[src, nearest_vertex]].stations + [vertex])
           # p "set @distances[#{src}][#{vertex}] to #{@distances[src][vertex]}, routes: #{@routes[src][vertex]}"
           # decrease-key v in Q # ???
         end
@@ -84,5 +86,20 @@ class Edge
     @src = src
     @dst = dst
     @length = length
+  end
+end
+
+class Route
+  attr_reader :stations
+  def initialize(stations)
+    @stations = stations
+  end
+
+  def ==(other)
+    return false if @stations.length != other.stations.length
+    @stations.each_with_index do |station, i|
+      return false if station != other.stations[i]
+    end
+    return true
   end
 end

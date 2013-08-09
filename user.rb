@@ -45,9 +45,10 @@ end
 class UserFactory
 	def initialize(subway = Subway.new)
 		@subway = subway
+		@graph = Graph.new @subway
 	end
 	def nonTransfered(count)
-		routes = @subway.routes.routes_with_transfer(0)
+		routes = @graph.routes.routes_with_transfer(0)
 
 		count.times.each_with_object([]) do |i, users|
 			route = random(routes)

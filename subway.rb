@@ -1,11 +1,9 @@
 require File.join(File.dirname(__FILE__), 'graph.rb')
-require File.join(File.dirname(__FILE__), 'route.rb')
 
 class Subway
-	attr_reader :lines, :graph, :routes
+	attr_reader :lines, :graph
 	def initialize(lines = [])
 		@lines = lines
-		@routes = Routes.new
 	end
 	def addLine(line)
 		@lines.push line
