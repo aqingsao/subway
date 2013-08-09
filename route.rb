@@ -28,31 +28,28 @@ class Route
     line_stations = []
 
     possible_lines = []
-    previous_station = nil
-    sliced_stations = []
+    previous_stations = []
     stations.each do |station|
-      if possible_lines.empty?
-	      sliced_stations << station
-        possible_lines = station.lines.clone
-      else
-        if (possible_lines & station.lines) == []
-          possible_line = possible_lines.first
+      if has_to_transfer(possible_lines, station.lines)
+        previous_line = possible_lines.first
+        possible_lines = station.lines & previous_stations.last.lines
 
-          while(s = sliced_stations.shift)
-          	line_stations << LineStation.new(possible_line, s)
-          end
-          sliced_stations = [station]
-          possible_lines = station.lines & previous_station.lines
-        else
-  	      sliced_stations << station
-          possible_lines &= station.lines
+        while(s = previous_stations.shift)
+        	line_stations << LineStation.new(previous_line, s)
         end
+        previous_stations = [station]
+      else
+	      previous_stations << station
+        possible_lines = station.lines if possible_lines.empty?
+        possible_lines &= station.lines unless possible_lines.empty?
       end
-      previous_station = station
     end
     unless possible_lines.empty?
-       sliced_stations.each {|s| line_stations << LineStation.new(possible_lines.first, s)}
+       previous_stations.each {|s| line_stations << LineStation.new(possible_lines.first, s)}
     end
     line_stations
+  end
+  def has_to_transfer(possible_lines, new_lines)
+  	!possible_lines.empty? && ((possible_lines & new_lines) == [])
   end
 end
