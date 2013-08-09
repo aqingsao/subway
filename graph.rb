@@ -1,13 +1,3 @@
-class Edge
-  attr_accessor :src, :dst, :length
-  
-  def initialize(src, dst, length=2.5)
-    @src = src
-    @dst = dst
-    @length = length
-  end
-end
- 
 class Graph < Array
   attr_reader :edges
   
@@ -82,5 +72,15 @@ class Graph < Array
       end
       vertices.delete nearest_vertex
     end
+  end
+end
+
+class Edge
+  attr_accessor :src, :dst, :length
+  
+  def initialize(src, dst, length=2.5)
+    @src = src
+    @dst = dst
+    @length = length
   end
 end
