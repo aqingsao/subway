@@ -10,6 +10,7 @@ class Line
 	end
 	def addStation(station)
 		@stations.push station
+		station.lines << self unless station.lines.include? self
 	end
 	def station_by_name(station_name)
 		@stations.detect {|station| station.name == station_name}

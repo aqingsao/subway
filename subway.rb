@@ -42,7 +42,6 @@ class Subway
 	def marshal
 		@lines.each do |line|
 			line.stations.each do |station|
-				station.lines << line unless station.lines.include? line
 				station.transfer= true if @lines.any?{|l| l.containsStation(station.name) && l.name != line.name}
 			end
 		end
