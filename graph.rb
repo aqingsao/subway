@@ -3,7 +3,8 @@ require File.join(File.dirname(__FILE__), 'route.rb')
 class Graph < Array
   attr_reader :edges
   
-  def initialize(subway)
+  def initialize(subway, station_time=2.5, transfer_time=3.1)
+    @station_time, @transfer_time = station_time, transfer_time
     @edges = []
     @vertices = []
     @neighbors = {}
@@ -56,7 +57,7 @@ class Graph < Array
   def routes_for(src)
     @vertices.each do |vertex|
       @distances[[src, vertex]] = nil # Infinity
-      @routes[[src, vertex]] = Route.new [src]
+      @routes[[src, vertex]] = Route.new [src], @station_time, @transfer_time
     end
     @distances[[src, src]] = 0
     vertices = @vertices.clone
@@ -74,7 +75,7 @@ class Graph < Array
       # p "nearest_vertex: #{nearest_vertex}, distances[#{src}][#{nearest_vertex}]: #{@distances[src][nearest_vertex]},neighbors: #{neighbors}"
       neighbors.each do |vertex|
         # alt = @distances[[src, nearest_vertex]] + self.length_between(nearest_vertex, vertex)
-        newRoute =Route.new(@routes[[src, nearest_vertex]].stations + [vertex])
+        newRoute =Route.new(@routes[[src, nearest_vertex]].stations + [vertex], @station_time, @transfer_time)
         # p "vertex: #{vertex}, vertices.length_between(#{nearest_vertex}, #{vertex}): #{vertices.length_between(nearest_vertex, vertex)}, alt: #{alt}"
         if @distances[[src, vertex]].nil? || newRoute.total_time < @distances[[src, vertex]]
           @distances[[src, vertex]] = newRoute.total_time 
