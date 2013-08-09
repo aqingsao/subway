@@ -6,7 +6,7 @@ describe Subway do
 	before (:each) do
 		@station1 = Station.new(1, "s1")
 		@line1 = Line.new("1号线", [@station1])
-		@subway = Subway.new([@line1])
+		@subway = Subway.new([@line1]).marshal()
 	end
 
 	describe "containsStation" do

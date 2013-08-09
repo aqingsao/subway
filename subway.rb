@@ -15,8 +15,7 @@ class Subway
 		@lines.any?{|line| line.containsStation(station_name)}
 	end
 	def station_by_name(station_name)
-		line = @lines.detect{|line| line.containsStation(station_name)}
-		line.station_by_name(station_name) unless line.nil?
+		@name_stations[station_name]
 	end
 	def station_by_index(index)
 		@index_stations[index]
