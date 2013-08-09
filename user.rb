@@ -63,33 +63,15 @@ class UserFactory
 		end
 	end
 	def transferTwice(count)
+		routes = @subway.routes.routes_with_transfer(2)
+
 		count.times.each_with_object([]) do |i, users|
-			fromLine = randomLine
-			fromStation = randomStation(fromLine) while(fromStation.nil? || fromStation.transfer)
-
-			toLine = random(fromLine.transferableLines)
-			toStation = randomStation(toLine) while(toStation.nil? || fromLine.containsStation(toStation.name))
-
-			route = @subway.graph.route(fromStation.index, toStation.index)
-			users<<User.new(fromStation, toStation, route)
+			route = random(routes)
+			users<<User.new(route.stations.first, route.stations.last, route)
 		end
 	end
 	private 
 	def random(array)
 		array[rand(array.length)]
-	end
-	def randomLine
-		random(@subway.lines)
-	end
-	def randomStation(line)
-		random(line.stations)
-	end
-
-	def randomStationsOn(line)
-		from = rand(line.stations.length)
-		to = rand(line.stations.length) until to !=nil && to != from
-		to = to -2 if(to < from && to >= 2)
-		to = to +2 if(to>from && to <line.stations.length-2)
-		return line.stations[from], line.stations[to]
 	end
 end
