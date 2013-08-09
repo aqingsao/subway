@@ -14,27 +14,16 @@ class Graph < Array
   def initialize
     @edges = []
     @vertices = []
+    @neighbors = []
   end
   
-  def connect(src, dst, length = 2.5)
-    @edges.push Edge.new(src, dst, length)
+  def connect_mutually(src, dst, length = 2.5)
+    connect src, dst, length
+    connect dst, src, length
     @vertices << src unless @vertices.include? src
     @vertices << dst unless @vertices.include? dst
   end
   
-  def connect_mutually(vertex1, vertex2, length = 2.5)
-    self.connect vertex1, vertex2, length
-    self.connect vertex2, vertex1, length
-  end
- 
-  def neighbors(vertex)
-    neighbors = []
-    @edges.each do |edge|
-      neighbors.push edge.dst if edge.src == vertex
-    end
-    return neighbors.uniq
-  end
- 
   def length_between(src, dst)
     @edges.each do |edge|
       return edge.length if edge.src == src and edge.dst == dst
@@ -56,6 +45,12 @@ class Graph < Array
   end
 
   private
+  def connect(src, dst, length = 2.5)
+    @edges.push Edge.new(src, dst, length)
+    @neighbors[src] = [] if @neighbors[src].nil?
+    @neighbors[src] << dst
+  end
+
   def routes_for(src)
     @vertices.each do |vertex|
       @distances[[src, vertex]] = nil # Infinity
@@ -73,7 +68,7 @@ class Graph < Array
       end
       # p "--------nearest_vertex: #{src}, #{nearest_vertex}"
       break unless @distances[[src, nearest_vertex]] # Infinity
-      neighbors = self.neighbors(nearest_vertex)
+      neighbors = @neighbors[nearest_vertex]
       # p "nearest_vertex: #{nearest_vertex}, distances[#{src}][#{nearest_vertex}]: #{@distances[src][nearest_vertex]},neighbors: #{neighbors}"
       neighbors.each do |vertex|
         alt = @distances[[src, nearest_vertex]] + self.length_between(nearest_vertex, vertex)
