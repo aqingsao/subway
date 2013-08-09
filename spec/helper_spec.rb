@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__), "spec_helper")
-require File.join(File.dirname(__FILE__), "../helper/gaussian")
+require File.join(File.dirname(__FILE__), "../helper/helper")
 
 describe AmountGenerator do
 	describe "next" do
