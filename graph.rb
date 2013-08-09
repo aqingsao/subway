@@ -66,12 +66,11 @@ class Graph < Array
       # p "nearest_vertex: #{nearest_vertex}, distances[#{src}][#{nearest_vertex}]: #{@distances[src][nearest_vertex]},neighbors: #{neighbors}"
       neighbors.each do |vertex|
         alt = @distances[[src, nearest_vertex]] + self.length_between(nearest_vertex, vertex)
+        # newRoute =Route.new(@routes[[src, nearest_vertex]].stations + vertex)
         # p "vertex: #{vertex}, vertices.length_between(#{nearest_vertex}, #{vertex}): #{vertices.length_between(nearest_vertex, vertex)}, alt: #{alt}"
         if @distances[[src, vertex]].nil? || alt < @distances[[src, vertex]]
           @distances[[src, vertex]] = alt 
           @routes[[src, vertex]] = Route.new(@routes[[src, nearest_vertex]].stations + [vertex])
-          # p "set @distances[#{src}][#{vertex}] to #{@distances[src][vertex]}, routes: #{@routes[src][vertex]}"
-          # decrease-key v in Q # ???
         end
       end
       vertices.delete nearest_vertex
@@ -86,20 +85,5 @@ class Edge
     @src = src
     @dst = dst
     @length = length
-  end
-end
-
-class Route
-  attr_reader :stations
-  def initialize(stations)
-    @stations = stations
-  end
-
-  def ==(other)
-    return false if @stations.length != other.stations.length
-    @stations.each_with_index do |station, i|
-      return false if station != other.stations[i]
-    end
-    return true
   end
 end
