@@ -15,7 +15,7 @@ class Line
 	def station_by_name(station_name)
 		@stations.detect {|station| station.name == station_name}
 	end
-	def maxStationIndex
+	def max_station_number
 		result = @stations.collect{|station| station.index}.max
 		result.nil? ? 0 : result
 	end

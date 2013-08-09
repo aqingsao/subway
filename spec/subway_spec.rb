@@ -18,18 +18,18 @@ describe Subway do
 		end
 	end
 
-	describe "maxStationIndex" do
+	describe "max_station_number" do
 		it	"should return 0 when there are none stations" do
-			expect(Subway.new.maxStationIndex).to eq(0)
+			expect(Subway.new.max_station_number).to eq(0)
 		end
 		it	"should return 1 when there is a station with index 1" do
-			expect(Subway.new([Line.new("1号线", [Station.new(1, "s0")])]).maxStationIndex).to eq(1)
+			expect(Subway.new([Line.new("1号线", [Station.new(1, "s0")])]).max_station_number).to eq(1)
 		end
 		it	"should return 10 when there is 2 stations with index 1 and 10" do
-			expect(Subway.new([Line.new("1号线", [Station.new(1, "s0")]), Line.new("2号线", [Station.new(10, "s10")])]).maxStationIndex).to eq(10)
+			expect(Subway.new([Line.new("1号线", [Station.new(1, "s0")]), Line.new("2号线", [Station.new(10, "s10")])]).max_station_number).to eq(10)
 		end
 		it	"should return 0 when there are 2 emtpy lines" do
-			expect(Subway.new([Line.new("1号线"), Line.new("2号线")]).maxStationIndex).to eq(0)
+			expect(Subway.new([Line.new("1号线"), Line.new("2号线")]).max_station_number).to eq(0)
 		end
 	end
 

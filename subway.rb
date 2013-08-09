@@ -32,8 +32,8 @@ class Subway
 	def line_by_name(line_name)
 		@lines.find{|line| line.name == line_name}
 	end
-	def maxStationIndex
-		result = @lines.collect{|line| line.maxStationIndex}.max
+	def max_station_number
+		result = @lines.collect{|line| line.max_station_number}.max
 		result.nil? ? 0 : result
 	end
 	def stations
