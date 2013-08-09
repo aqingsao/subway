@@ -29,12 +29,12 @@ describe Line do
 		end
 	end
 
-	describe "getStation" do
+	describe "station_by_name" do
 		it "should return nil when line does not contain a station" do
-			expect(@line1.getStation("unknown station")).to be_nil
+			expect(@line1.station_by_name("unknown station")).to be_nil
 		end
 		it "should return station when line does contain a station" do
-			expect(@line1.getStation("s1")).to eq(@station)
+			expect(@line1.station_by_name("s1")).to eq(@station)
 		end
 	end
 

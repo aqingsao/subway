@@ -11,14 +11,14 @@ class Subway
 	def addLine(line)
 		@lines.push line
 	end
-	def containsStation(stationName)
-		@lines.any?{|line| line.containsStation(stationName)}
+	def containsStation(station_name)
+		@lines.any?{|line| line.containsStation(station_name)}
 	end
-	def getStation(stationName)
-		line = @lines.detect{|line| line.containsStation(stationName)}
-		line.getStation(stationName) unless line.nil?
+	def station_by_name(station_name)
+		line = @lines.detect{|line| line.containsStation(station_name)}
+		line.station_by_name(station_name) unless line.nil?
 	end
-	def getStationByIndex(index)
+	def station_by_index(index)
 		@index_stations[index]
 	end
 	def maxStationIndex
@@ -55,7 +55,7 @@ class Subway
 
 		@routes = Routes.new
 		@graph.init_routes().each do |route|
-			@routes << Route.new(route.collect{|index| getStationByIndex(index)})
+			@routes << Route.new(route.collect{|index| station_by_index(index)})
 		end
 		self
 	end
@@ -69,11 +69,11 @@ class Line
 	def addStation(station)
 		@stations.push station
 	end
-	def getStation(stationName)
-		@stations.detect {|station| station.name == stationName}
+	def station_by_name(station_name)
+		@stations.detect {|station| station.name == station_name}
 	end
-	def containsStation(stationName)
-		@stations.any?{|station| station.name == stationName}
+	def containsStation(station_name)
+		@stations.any?{|station| station.name == station_name}
 	end
 	def maxStationIndex
 		result = @stations.collect{|station| station.index}.max

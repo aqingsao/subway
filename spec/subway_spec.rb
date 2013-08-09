@@ -33,13 +33,13 @@ describe Subway do
 		end
 	end
 
-	describe "getStation" do
+	describe "station_by_name" do
 		it "should return nil when line does not contain a station" do
-			expect(@subway.getStation("unknown station")).to be_nil
+			expect(@subway.station_by_name("unknown station")).to be_nil
 		end
 		it "should return station when line does contain a station" do
-			@subway.getStation("s1").should_not be_nil
-			@subway.getStation("s1").name.should eq("s1")
+			@subway.station_by_name("s1").should_not be_nil
+			@subway.station_by_name("s1").name.should eq("s1")
 		end
 	end
 
