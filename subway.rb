@@ -21,6 +21,9 @@ class Subway
 	def station_by_index(index)
 		@index_stations[index]
 	end
+	def line_by_name(line_name)
+		@lines.find{|line| line.name == line_name}
+	end
 	def maxStationIndex
 		result = @lines.collect{|line| line.maxStationIndex}.max
 		result.nil? ? 0 : result
@@ -133,8 +136,8 @@ class Route
 			end
 		end
 		lines << currentLine.first unless currentLine.empty?
-		p "route: #{stations.collect{|station| station.name}}"
-		p "line: #{lines.collect{|line| line.name}}"
+		# p "route: #{stations.collect{|station| station.name}}"
+		# p "line: #{lines.collect{|line| line.name}}"
 
 		lines
 	end

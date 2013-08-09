@@ -4,16 +4,27 @@ require File.join(File.dirname(__FILE__), "../subway")
 require File.join(File.dirname(__FILE__), "../helper/helper.rb")
 
 describe Route do
-	before (:each) do
-		@subway = SubwayHelper.loadSubway(File.join(File.dirname(__FILE__), "subway_test.txt")) if @subway.nil?
-	end
+	# before (:each) do
+	# 	@subway = SubwayHelper.loadSubway(File.join(File.dirname(__FILE__), "subway_test.txt")) if @subway.nil?
+	# 	@scenarios = [
+	# 		{from: "五棵松", to: "万寿路", lines:["1号线"]}, 
+	# 		{from: "南礼士路", to: "阜成门", lines:["1号线", "2号线"]}, 
+	# 		{from: "军事博物馆", to: "西直门", lines:["9号线", "4号线"]}
+	# 	]
+	# end
 
-	describe "lines" do
-		it	"should return line 1 from station 1 to 2" do
-			# @subway.station_by_name
-			# route = @subway.routes.route(1, 2)
-			# route.should_not be_nil
-			# route.lines.should == [@line1]
-		end
-	end
+	# describe "lines" do
+	# 	it	"should return expected lines when given from station and to station" do
+	# 		@scenarios.each do |scenario|
+	# 			from = @subway.station_by_name(scenario[from])
+	# 			from.should_not be_nil
+	# 			to = @subway.station_by_name(scenario[to])
+	# 			to.should_not be_nil
+				
+	# 			route = @subway.routes.route(from.index, to.index)
+	# 			route.should_not be_nil
+	# 			route.lines.should == scenario[lines].collect{|line| @subway.line_by_name(line)}
+	# 		end
+	# 	end
+	# end
 end
