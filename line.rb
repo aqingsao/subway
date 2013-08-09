@@ -4,7 +4,9 @@ require File.join(File.dirname(__FILE__), 'station.rb')
 class Line
 	attr_reader :name, :stations
 	def initialize(name, stations = [])
-		@name, @stations = name, stations;
+		@name = name
+		@stations = []
+		stations.each{|station|addStation(station)}
 	end
 	def addStation(station)
 		@stations.push station
