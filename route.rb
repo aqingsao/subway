@@ -38,7 +38,7 @@ end
 
 class Routes < Array
 	def simple_routes
-		self.collect{|route| route.stations.collect{|station| station.index}}
+		self.collect{|route| route.stations.collect{|station| station.number}}
 	end
 	def routes_with_transfer(times)
 		self.find_all{|route| route.lines.length == times + 1}
@@ -46,7 +46,7 @@ class Routes < Array
 
 	def route(src, dst)
 		self.find do |route|
-			return route if (route.stations.first.index == src && route.stations.last.index == dst)
+			return route if (route.stations.first.number == src && route.stations.last.number == dst)
 		end
 	end
 end

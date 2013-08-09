@@ -36,7 +36,7 @@ File.open(output, "w") do |file|
 	subway.lines.each do |line|
 		file.puts line.name
 		line.stations.each do |s|
-			file.puts "#{s.index} #{s.name}"
+			file.puts "#{s.number} #{s.name}"
 		end
 		file.puts "\n"
 	end

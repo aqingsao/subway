@@ -16,7 +16,7 @@ class Line
 		@stations.detect {|station| station.name == station_name}
 	end
 	def max_station_number
-		result = @stations.collect{|station| station.index}.max
+		result = @stations.collect{|station| station.number}.max
 		result.nil? ? 0 : result
 	end
 	def transferableLines

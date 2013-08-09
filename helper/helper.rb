@@ -68,8 +68,8 @@ class SubwayHelper
             @line = Line.new(str);
             subway.addLine @line
           else
-            index, name = str.split(" ").collect{|e|e.strip}
-            @line.add_station(subway.contains_station(name) ? subway.station_by_name(name).as_transfered : Station.new(index.to_i, name)) 
+            number, name = str.split(" ").collect{|e|e.strip}
+            @line.add_station(subway.contains_station(name) ? subway.station_by_name(name).as_transfered : Station.new(number.to_i, name)) 
           end
         end
       end 

@@ -21,10 +21,10 @@ class Subway
 		end
 		nil
 	end
-	def station_by_index(station_index)
+	def station_by_number(station_number)
 		@lines.each do |line|
 			line.stations.each do |station|
-				return station if station.index == station_index
+				return station if station.number == station_number
 			end
 		end
 		nil
@@ -41,16 +41,6 @@ class Subway
 	end
 
 	def marshal
-		# @graph = Graph.new
-		# @lines.each do |line|
-		# 	line.stations.each_with_index do |station, index|
-		# 		@graph.connect_mutually(station.index, line.stations[index+1].index, 2.5) unless (index >= line.stations.length-1)
-		# 	end
-		# end
-		# @routes = Routes.new
-		# @graph.each do |route|
-		# 	@routes << Route.new(route.collect{|index| station_by_index(index)})
-		# end
 		self
 	end
 end

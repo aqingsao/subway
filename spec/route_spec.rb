@@ -21,7 +21,7 @@ describe Route do
 	# 			to = @subway.station_by_name(scenario[to])
 	# 			to.should_not be_nil
 				
-	# 			route = @subway.routes.route(from.index, to.index)
+	# 			route = @subway.routes.route(from.number, to.number)
 	# 			route.should_not be_nil
 	# 			route.lines.should == scenario[lines].collect{|line| @subway.line_by_name(line)}
 	# 		end

@@ -10,10 +10,10 @@ describe Station do
 		it 'return true when obj compares with itself' do
 			expect(@station0.== @station0).to be_true
 		end
-		it 'return true when obj compares with other which has same name and index' do
+		it 'return true when obj compares with other which has same name and number' do
 			expect(@station0.== Station.new(0, "s0")).to be_true
 		end
-		it 'return false when obj compares with other which has different name or index' do
+		it 'return false when obj compares with other which has different name or number' do
 			expect(@station0.== @station1).to be_false
 		end
 		it 'return true when a hash include object' do
