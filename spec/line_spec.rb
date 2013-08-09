@@ -44,9 +44,9 @@ describe Line do
 		end
 	end
 
-	describe "transferableLines" do
+	describe "transferable_lines" do
 		it "return empty when a line is not transferable to any other lines" do
-			 Line.new("1号线").transferableLines.should be_empty
+			 Line.new("1号线").transferable_lines.should be_empty
 		end
 		it "return 1 line when a line is transferable to another line" do
 			station1 = Station.new(1, "s1")
@@ -56,8 +56,8 @@ describe Line do
 			line2 = Line.new("2号线", [station2, station3])
 			subway = Subway.new([line1, line2]).marshal()
 			
-			expect(line1.transferableLines.length).to eq(1)
-			line1.transferableLines[0].should eq(line2)
+			expect(line1.transferable_lines.length).to eq(1)
+			line1.transferable_lines[0].should eq(line2)
 		end
 		it "return 2 lines when a line is transferable to another 2 lines" do
 			station1 = Station.new(1, "s1")
@@ -69,9 +69,9 @@ describe Line do
 			line3 = Line.new("3号线", [station1, station4])
 			subway = Subway.new([line1, line2, line3]).marshal()
 			
-			expect(line1.transferableLines.length).to eq(2)
-			expect(line1.transferableLines.include? line2).to be_true
-			expect(line1.transferableLines.include? line3).to be_true
+			expect(line1.transferable_lines.length).to eq(2)
+			expect(line1.transferable_lines.include? line2).to be_true
+			expect(line1.transferable_lines.include? line3).to be_true
 		end
 	end
 end

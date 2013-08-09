@@ -19,7 +19,7 @@ class Line
 		result = @stations.collect{|station| station.number}.max
 		result.nil? ? 0 : result
 	end
-	def transferableLines
+	def transferable_lines
 		lines = []
 		@stations.each do |station|
 			lines = lines + station.lines
