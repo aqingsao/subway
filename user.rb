@@ -41,9 +41,8 @@ class User
 end
 
 class UserFactory
-	def initialize(subway = Subway.new)
-		@subway = subway
-		@graph = Graph.new @subway
+	def initialize(graph)
+		@graph = graph
 	end
 	def users_with_transfer(user_count, transfer_count)
 		routes = @graph.routes.find_all{|route| route.lines.length == transfer_count+1}

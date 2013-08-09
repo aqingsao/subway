@@ -13,7 +13,7 @@ subway = SubwayHelper.load(file)
 # "6: 112"
 
 userCount = 1000
-factory = UserFactory.new subway
+factory = UserFactory.new (Graph.new subway)
 users = []
 users += factory.users_with_transfer((userCount * 0.08).ceil, 0)
 users += factory.users_with_transfer((userCount * 0.4).ceil, 1)
