@@ -17,7 +17,7 @@ class User
 	@@timePerStation = 2.5 * 60; // 
 	def initialize(from, to, route, enterTime=1)
 		@from, @to, @route = from, to, route
-		@enterTime, @leaveTime = enterTime, enterTime + @route.length 
+		@enterTime, @leaveTime = enterTime, enterTime + @route.stations.length 
 		@card = Card.new
 		@entered, @left = false
 	end
@@ -47,10 +47,11 @@ class UserFactory
 		@subway = subway
 	end
 	def nonTransfered(count)
+		routes = @subway.routes.routes_with_transfer(0)
+
 		count.times.each_with_object([]) do |i, users|
-			fromStation, toStation = randomStationsOn(randomLine)
-			route = @subway.graph.route(fromStation.index, toStation.index)
-			users<<User.new(fromStation, toStation, route)
+			route = random(routes)
+			users<<User.new(route.stations.first, route.stations.last, route)
 		end
 	end
 	def transferOnce(count)

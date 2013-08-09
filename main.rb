@@ -33,11 +33,11 @@ factory = UserFactory.new subway
 users = factory.nonTransfered((userCount * 0.08).ceil)
 users = factory.transferOnce((userCount * 0.4).ceil)
 
-# startTime = Time.new
-# while(not (remaining = users.find_all{|user| !user.finished}).empty?)
-# 	remaining.each do |user|
-# 		user.enter if user.readyToEnter(startTime)
-# 		user.leave if user.readyToLeave(startTime)
-# 	end
-# 	sleep 1
-# end
+startTime = Time.new
+while(not (remaining = users.find_all{|user| !user.finished}).empty?)
+	remaining.each do |user|
+		user.enter if user.readyToEnter(startTime)
+		user.leave if user.readyToLeave(startTime)
+	end
+	sleep 1
+end
