@@ -24,7 +24,7 @@ class User
 		@entered && @left
 	end
 	def enter
-		LOGGER.info sprintf("user entered station #{@from.name} with card number #{@card.number} and amount %.2f", @card.amount)
+		LOGGER.info sprintf("user entered station #{@route.stations.first.name} with card number #{@card.number} and amount %.2f", @card.amount)
 		@entered = true
 	end
 	def readyToEnter(startTime)
@@ -32,7 +32,7 @@ class User
 	end
 	def leave
 		@card.amount = @card.amount - 2
-		LOGGER.info sprintf("user left station #{@from.name} with card number #{@card.number} and amount %.2f", @card.amount)
+		LOGGER.info sprintf("user left station #{@route.stations.last.name} with card number #{@card.number} and amount %.2f", @card.amount)
 		@left = true
 	end
 	def readyToLeave(startTime)
@@ -44,11 +44,10 @@ class UserFactory
 	def initialize(subway = Subway.new)
 		@subway = subway
 		@graph = Graph.new @subway
-
-		p @graph.routes.length
 	end
 	def users_with_transfer(user_count, transfer_count)
-		routes = @graph.routes.find_all{|route| route.lines.length == transfer_count-1}
+		routes = @graph.routes.find_all{|route| route.lines.length == transfer_count+1}
+		return [] if routes.empty?
 
 		user_count.times.each_with_object([]) do |i, users|
 			route = random(routes)
@@ -57,8 +56,6 @@ class UserFactory
 	end
 	private 
 	def random(array)
-		i = rand(array.length)
-		p  "#{i}" if array[i].nil?
-		array[i]
+		array[rand(array.length)]
 	end
 end

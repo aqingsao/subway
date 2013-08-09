@@ -4,6 +4,13 @@ require File.join(File.dirname(__FILE__), 'helper/helper.rb')
 
 file = "subway.txt"
 subway = SubwayHelper.load(file)
+# "0: 4701"
+# "1: 11753"
+# "2: 18810"
+# "3: 16201"
+# "4: 7315"
+# "5: 1378"
+# "6: 112"
 
 userCount = 1000
 factory = UserFactory.new subway
