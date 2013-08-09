@@ -13,16 +13,13 @@ class Graph < Array
   
   def initialize
     @edges = []
+    @vertices = []
   end
   
   def connect(src, dst, length = 2.5)
-    unless self.include?(src)
-      raise "No such vertex: #{src}"
-    end
-    unless self.include?(dst)
-      raise "No such vertex: #{dst}"
-    end
     @edges.push Edge.new(src, dst, length)
+    @vertices << src unless @vertices.include? src
+    @vertices << dst unless @vertices.include? dst
   end
   
   def connect_mutually(vertex1, vertex2, length = 2.5)
@@ -52,7 +49,7 @@ class Graph < Array
   def init_routes
     @distances ||= {}
     @routes ||= {}
-    self.each do |vertex|
+    @vertices.each do |vertex|
       routes_for(vertex)
     end
     @routes.values.reject {|route| route.length <= 1}
@@ -60,12 +57,12 @@ class Graph < Array
 
   private
   def routes_for(src)
-    self.each do |vertex|
+    @vertices.each do |vertex|
       @distances[[src, vertex]] = nil # Infinity
       @routes[[src, vertex]] = [src]
     end
     @distances[[src, src]] = 0
-    vertices = self.clone
+    vertices = @vertices.clone
 
     until vertices.empty?
       nearest_vertex = vertices.inject do |a, b|
@@ -76,10 +73,10 @@ class Graph < Array
       end
       # p "--------nearest_vertex: #{src}, #{nearest_vertex}"
       break unless @distances[[src, nearest_vertex]] # Infinity
-      neighbors = vertices.neighbors(nearest_vertex)
+      neighbors = self.neighbors(nearest_vertex)
       # p "nearest_vertex: #{nearest_vertex}, distances[#{src}][#{nearest_vertex}]: #{@distances[src][nearest_vertex]},neighbors: #{neighbors}"
       neighbors.each do |vertex|
-        alt = @distances[[src, nearest_vertex]] + vertices.length_between(nearest_vertex, vertex)
+        alt = @distances[[src, nearest_vertex]] + self.length_between(nearest_vertex, vertex)
         # p "vertex: #{vertex}, vertices.length_between(#{nearest_vertex}, #{vertex}): #{vertices.length_between(nearest_vertex, vertex)}, alt: #{alt}"
         if @distances[[src, vertex]].nil? || alt < @distances[[src, vertex]]
           @distances[[src, vertex]] = alt 
