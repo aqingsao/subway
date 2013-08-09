@@ -6,7 +6,7 @@ class Subway
 		@lines = lines
 		@index_stations = {}
 		@name_stations = {}
-		@routes = []
+		@routes = Routes.new
 	end
 	def addLine(line)
 		@lines.push line
@@ -53,9 +53,9 @@ class Subway
 			end
 		end
 
-		@routes = []
+		@routes = Routes.new
 		@graph.init_routes().each do |route|
-			@routes << Route.new(value.collect{|index| getStationByIndex(index)})
+			@routes << Route.new(route.collect{|index| getStationByIndex(index)})
 		end
 		self
 	end
@@ -102,21 +102,29 @@ class Station
 	end
 end
 
-# class Edge
-# 	attr_reader :from, :to
-# 	def initialize(from, to)
-# 		@from, @to = from, to
-# 	end
-
-# 	def ==(other)
-# 		(self.from == other.from) && (self.to== other.to)
-# 	end
-# end
-
 class Route
 	attr_reader :stations
 	def initialize(stations = [])
 		@stations = stations
+	end
+	def lines
+		lines = []
+		currentLine = []
+		stations.each do |station|
+			if currentLine.empty?
+				currentLine = station.lines
+			else
+				if (currentLine & station.lines) == []
+					p "Take line #{currentLine.collect{|line| line.name}}"
+					lines << currentLine.shift
+					currentLine = station.lines
+				else
+					currentLine &= station.lines
+				end
+			end
+		end
+		lines << currentLine.first unless currentLine.empty?
+		lines
 	end
 	def ==(other)
 		return false unless self.stations.length == other.stations.length
@@ -125,5 +133,17 @@ class Route
 			result = false unless (e == other.stations[i])
 		end
 		result
+	end
+end
+
+class Routes < Array
+	def simple_routes
+		self.collect{|route| route.stations.collect{|station| station.index}}
+	end
+
+	def route(src, dst)
+		self.find do |route|
+			return route if (route.stations.first.index == src && route.stations.last.index == dst)
+		end
 	end
 end

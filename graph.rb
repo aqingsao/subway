@@ -55,7 +55,7 @@ class Graph < Array
     self.each do |vertex|
       routes_for(vertex)
     end
-    @routes.values
+    @routes.values.reject {|route| route.length <= 1}
   end
 
   private
