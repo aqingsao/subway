@@ -59,6 +59,7 @@ class DepartureTimeGenerator
     @gaussian = Gaussian.new(0.0, mean_time_in_seconds/2.5)
   end
   def next
-    @gaussian.rand + @mean_time_in_seconds
+    time = @gaussian.rand + @mean_time_in_seconds
+    time < 0 ? 0 : time
   end
 end
