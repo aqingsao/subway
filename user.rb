@@ -14,7 +14,7 @@ class Card
 	end
 end
 class User
-	attr_reader :route
+	attr_reader :route, :enterTime, :leaveTime
 	def initialize(route, enterTime=1)
 		@route, @card = route, Card.new
 		@enterTime, @leaveTime = enterTime, enterTime + @route.total_time
@@ -23,6 +23,9 @@ class User
 
 	def finished
 		@entered && @left
+	end
+	def stay_time
+		@leaveTime - @enterTime
 	end
 	def enter
 		LOGGER.info sprintf("user entered station #{@route.stations.first.number} with card number #{@card.number} and amount %.2f", @card.amount)
@@ -43,10 +46,11 @@ end
 
 class UserFactory
 	attr_reader :users
-	def initialize(graph)
+	def initialize(graph, mean_time)
 		@graph = graph
 		@users = []
 		@transfer_users = {}
+		@depare_time_generator = DepartureTimeGenerator.new(mean_time)
 	end
 	def create_users(user_count, transfer_count)
 		routes = @graph.routes.find_all{|route| route.lines.length == transfer_count+1}
@@ -54,7 +58,7 @@ class UserFactory
 
 		@transfer_users[transfer_count] ||= []
 		user_count.times.each() do |i|
-			user = User.new(random(routes))
+			user = User.new(random(routes), @depare_time_generator.next)
 			@users<<user
 			@transfer_users[transfer_count] << user
 		end
@@ -68,6 +72,15 @@ class UserFactory
 		station_most_in
 		station_most_out
 		station_transfer
+
+		last_leave_time = nil
+		max_stay_time = nil
+		@users.each do |user|
+			last_leave_time = user.leaveTime if last_leave_time.nil? || last_leave_time < user.leaveTime
+			max_stay_time = user.stay_time if max_stay_time.nil? || max_stay_time < user.stay_time		
+		end
+		p "max time stayed in subway is #{max_stay_time}"
+		p "last one to leave subway is #{last_leave_time}"
 	end
 	private 
 	def random(array)
@@ -87,7 +100,7 @@ class UserFactory
 				most_in_users_count = users.length
 				most_in_stations = [station]
 			elsif users.length == most_in_users_count
-				 most_in_stations << station
+				most_in_stations << station
 			end
 		end
 		p "most in stations: #{most_in_stations.collect{|station| station.name}}, users count: #{most_in_users_count}"

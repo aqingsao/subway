@@ -16,10 +16,11 @@ puts "Loading subway.txt finished..."
 userCount = 1032
 time_per_station = 150
 time_per_transfer = 191
+mean_time_to_departure = 5 * 60
 graph = Graph.new subway, time_per_station, time_per_transfer
 puts "Loading subway as graph finished..."
 
-factory = UserFactory.new graph
+factory = UserFactory.new graph, mean_time_to_departure
 factory.create_users((userCount * 0.05).ceil, 0)
 factory.create_users((userCount * 0.35).ceil, 1)
 factory.create_users((userCount * 0.30).ceil, 2)
@@ -31,12 +32,12 @@ factory.create_users((userCount * 0.01).ceil, 6)
 p "Creating users finished, here's a quicks summary..."
 factory.summary
 
-startTime = Time.new
-while(not (remaining = factory.users.find_all{|user| !user.finished}).empty?)
-	remaining.each do |user|
-		user.enter if user.readyToEnter(startTime)
-		user.leave if user.readyToLeave(startTime)
-	end
-	sleep 1
-end
+# startTime = Time.new
+# while(not (remaining = factory.users.find_all{|user| !user.finished}).empty?)
+# 	remaining.each do |user|
+# 		user.enter if user.readyToEnter(startTime)
+# 		user.leave if user.readyToLeave(startTime)
+# 	end
+# 	sleep 1
+# end
 p "All finished"
