@@ -67,6 +67,7 @@ class UserFactory
 
 		station_most_in
 		station_most_out
+		station_transfer
 	end
 	private 
 	def random(array)
@@ -82,12 +83,10 @@ class UserFactory
 		most_in_stations = []
 		most_in_users_count = 0
 		station_from_users.each_pair do |station, users|
-			p "station in:#{station.name}, users:#{users.length}"
 			if users.length > most_in_users_count
 				most_in_users_count = users.length
 				most_in_stations = [station]
-			end
-			if users.length == most_in_users_count
+			elsif users.length == most_in_users_count
 				 most_in_stations << station
 			end
 		end
@@ -103,8 +102,6 @@ class UserFactory
 		most_out_stations = []
 		most_out_users_count = 0
 		station_out_users.each_pair do |station, users|
-			p "station out:#{station.name}, users:#{users.length}"
-
 			if users.length > most_out_users_count
 				most_out_users_count = users.length
 				most_out_stations = [station]
@@ -113,5 +110,26 @@ class UserFactory
 			end
 		end
 		p "most out stations: #{most_out_stations.collect{|station| station.name}}, users count: #{most_out_users_count}"
+	end
+	def station_transfer
+		transfer_station_with_users = {}
+		@users.each do |user|
+			user.route.transfer_stations.each do |station|
+				transfer_station_with_users[station] ||= []
+				transfer_station_with_users[station] << user
+			end
+		end
+		most_transfered_stations = []
+		most_transfered_users_count = 0
+		transfer_station_with_users.each_pair do |station, users|
+			if users.length > most_transfered_users_count
+				most_transfered_users_count = users.length
+				most_transfered_stations = [station]
+			elsif users.length == most_transfered_users_count
+				 most_transfered_stations << station
+			end
+		end
+		p "most transfered stations: #{most_transfered_stations.collect{|station| station.name}}, users count: #{most_transfered_users_count}"
+
 	end
 end

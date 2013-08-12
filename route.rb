@@ -16,6 +16,15 @@ class Route
   def lines
     @line_stations.collect{|line_station| line_station.line}.uniq
   end
+  def transfer_stations
+    previous_line = nil
+    @line_stations.each_with_object([]) do |line_station, stations|
+      if previous_line.nil? || line_station.line != previous_line
+        previous_line = line_station.line
+        stations << line_station.station 
+      end
+    end
+  end
   def ==(other)
     return false if @stations.length != other.stations.length
     @stations.each_with_index do |station, i|

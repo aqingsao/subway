@@ -13,8 +13,10 @@ puts "Loading subway.txt finished..."
 # "5: 1378"
 # "6: 112"
 
-userCount = 1000
-graph = Graph.new subway, 2.5, 3.1
+userCount = 1032
+time_per_station = 150
+time_per_transfer = 191
+graph = Graph.new subway, time_per_station, time_per_transfer
 puts "Loading subway as graph finished..."
 
 factory = UserFactory.new graph
