@@ -37,7 +37,7 @@ class User
 	end
 	def leave(time_passed)
 		@card.amount = @card.amount - 2
-		p "expected: [#{@enterTime}, #{@leaveTime}], actual: [@actual_enterTime, time_passed]"
+		p "expected: [#{@enterTime}, #{@leaveTime}], actual: [#{@actual_enterTime}, #{time_passed}]"
 		LOGGER.info sprintf("user left station #{@route.stations.last.number} with card number #{@card.number} and amount %.2f", @card.amount)
 		@left = true
 	end
