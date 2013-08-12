@@ -24,7 +24,7 @@ class User
 		@entered && @left
 	end
 	def enter
-		LOGGER.info sprintf("user entered station #{@route.stations.first.name} with card number #{@card.number} and amount %.2f", @card.amount)
+		LOGGER.info sprintf("user entered station #{@route.stations.first.number} with card number #{@card.number} and amount %.2f", @card.amount)
 		@entered = true
 	end
 	def readyToEnter(startTime)
@@ -32,7 +32,7 @@ class User
 	end
 	def leave
 		@card.amount = @card.amount - 2
-		LOGGER.info sprintf("user left station #{@route.stations.last.name} with card number #{@card.number} and amount %.2f", @card.amount)
+		LOGGER.info sprintf("user left station #{@route.stations.last.number} with card number #{@card.number} and amount %.2f", @card.amount)
 		@left = true
 	end
 	def readyToLeave(startTime)
@@ -41,20 +41,49 @@ class User
 end
 
 class UserFactory
+	attr_reader :users
 	def initialize(graph)
 		@graph = graph
+		@users = []
+		@transfer_users = {}
 	end
-	def users_with_transfer(user_count, transfer_count)
+	def create_users(user_count, transfer_count)
 		routes = @graph.routes.find_all{|route| route.lines.length == transfer_count+1}
 		return [] if routes.empty?
 
-		user_count.times.each_with_object([]) do |i, users|
-			route = random(routes)
-			users<<User.new(route)
+		@transfer_users[transfer_count] ||= []
+		user_count.times.each() do |i|
+			user = User.new(random(routes))
+			@users<<user
+			@transfer_users[transfer_count] << user
 		end
+	end
+	def summary
+		p "users count: #{users.length}"
+		@transfer_users.each_pair do |transfer_count, users|
+			p "transfer count: #{transfer_count}, users count: #{users.length}"
+		end
+
+		# p "most crowded stations in: #{station_most_in.name}"
+		# p "most crowded stations out: #{station_most_out.name}"
 	end
 	private 
 	def random(array)
 		array[rand(array.length)]
+	end
+	def station_most_in
+		# station_from_users = {}
+		# @users.each do |user|
+		# 	from = user.route.first
+		# 	station_from_users[from] ||= [] 
+		# 	station_from_users[from] << user
+		# end
+		# most_in = nil
+		# station_from_users.each_pair do |station, users|
+		# 	most_in = station if most_in.nil? || most_in
+		# end
+	end
+	def station_most_out
+
 	end
 end
