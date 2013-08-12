@@ -32,11 +32,12 @@ factory.create_users((userCount * 0.01).ceil, 6)
 p "Creating users finished, here's a quicks summary..."
 factory.summary
 
-startTime = Time.new
+start_time = Time.new
 while(not (remaining = factory.users.find_all{|user| !user.finished}).empty?)
+	stayed_time = Time.new - start_time
 	remaining.each do |user|
-		user.enter if user.readyToEnter(startTime)
-		user.leave if user.readyToLeave(startTime)
+		user.enter if user.readyToEnter(stayed_time)
+		user.leave if user.readyToLeave(stayed_time)
 	end
 	sleep 1
 end

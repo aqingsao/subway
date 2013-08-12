@@ -31,16 +31,17 @@ class User
 		LOGGER.info sprintf("user entered station #{@route.stations.first.number} with card number #{@card.number} and amount %.2f", @card.amount)
 		@entered = true
 	end
-	def readyToEnter(startTime)
-		!@entered && (Time.now - startTime >= @enterTime)
+	def readyToEnter(stayed_time)
+		!@entered && (stayed_time >= @enterTime)
 	end
 	def leave
 		@card.amount = @card.amount - 2
+		p "user stayed in station for #{@leaveTime - @enterTime} seconds"
 		LOGGER.info sprintf("user left station #{@route.stations.last.number} with card number #{@card.number} and amount %.2f", @card.amount)
 		@left = true
 	end
-	def readyToLeave(startTime)
-		(@entered && !@left) &&(Time.now - startTime >= @leaveTime)
+	def readyToLeave(stayed_time)
+		(@entered && !@left) &&(stayed_time >= @leaveTime)
 	end
 end
 
