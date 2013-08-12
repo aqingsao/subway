@@ -52,3 +52,13 @@ class CardNoGenerator
     sprintf("1%03d%05d%03d%05d", @@firstIndex,rand(100000), @@lastIndex, rand(100000))
   end
 end
+
+class DepartureTimeGenerator
+  def initialize(mean_time_in_seconds)
+    @mean_time_in_seconds = mean_time_in_seconds
+    @gaussian = Gaussian.new(0.0, mean_time_in_seconds/2.5)
+  end
+  def next
+    @gaussian.rand + @mean_time_in_seconds
+  end
+end

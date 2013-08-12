@@ -25,5 +25,20 @@ describe CardNoGenerator do
 			end
 		end
 	end
+end
 
+describe DepartureTimeGenerator do
+	before :each do
+		@generator = DepartureTimeGenerator.new(5 * 60) if @generator.nil?
+	end
+	describe "next" do
+		it "should generate random departure time" do
+			times = 100.times.each_with_object([]) do |i, times|
+				times << @generator.next();
+			end
+			times.sort.each do |t|
+				p t
+			end
+		end
+	end
 end
