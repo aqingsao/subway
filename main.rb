@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__), 'user.rb')
 require File.join(File.dirname(__FILE__), 'subway.rb')
 require File.join(File.dirname(__FILE__), 'helper/helper.rb')
 
-file = "subway.txt"
+file = "data1/subway.txt"
 subway = SubwayHelper.load(file)
 # "0: 4701"
 # "1: 11753"
