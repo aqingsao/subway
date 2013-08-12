@@ -14,6 +14,7 @@ class Card
 	end
 end
 class User
+	attr_reader :route
 	def initialize(route, enterTime=1)
 		@route, @card = route, Card.new
 		@enterTime, @leaveTime = enterTime, enterTime + @route.total_time
@@ -64,26 +65,53 @@ class UserFactory
 			p "transfer count: #{transfer_count}, users count: #{users.length}"
 		end
 
-		# p "most crowded stations in: #{station_most_in.name}"
-		# p "most crowded stations out: #{station_most_out.name}"
+		station_most_in
+		station_most_out
 	end
 	private 
 	def random(array)
 		array[rand(array.length)]
 	end
 	def station_most_in
-		# station_from_users = {}
-		# @users.each do |user|
-		# 	from = user.route.first
-		# 	station_from_users[from] ||= [] 
-		# 	station_from_users[from] << user
-		# end
-		# most_in = nil
-		# station_from_users.each_pair do |station, users|
-		# 	most_in = station if most_in.nil? || most_in
-		# end
+		station_from_users = {}
+		@users.each do |user|
+			from = user.route.stations.first
+			station_from_users[from] ||= [] 
+			station_from_users[from] << user
+		end
+		most_in_stations = []
+		most_in_users_count = 0
+		station_from_users.each_pair do |station, users|
+			p "station in:#{station.name}, users:#{users.length}"
+			if users.length > most_in_users_count
+				most_in_users_count = users.length
+				most_in_stations = [station]
+			end
+			if users.length == most_in_users_count
+				 most_in_stations << station
+			end
+		end
+		p "most in stations: #{most_in_stations.collect{|station| station.name}}, users count: #{most_in_users_count}"
 	end
 	def station_most_out
+		station_out_users = {}
+		@users.each do |user|
+			out = user.route.stations.last
+			station_out_users[out] ||= [] 
+			station_out_users[out] << user
+		end
+		most_out_stations = []
+		most_out_users_count = 0
+		station_out_users.each_pair do |station, users|
+			p "station out:#{station.name}, users:#{users.length}"
 
+			if users.length > most_out_users_count
+				most_out_users_count = users.length
+				most_out_stations = [station]
+			elsif users.length == most_out_users_count
+				 most_out_stations << station
+			end
+		end
+		p "most out stations: #{most_out_stations.collect{|station| station.name}}, users count: #{most_out_users_count}"
 	end
 end
