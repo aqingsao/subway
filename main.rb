@@ -34,10 +34,10 @@ factory.summary
 
 start_time = Time.new
 while(not (remaining = factory.users.find_all{|user| !user.finished}).empty?)
-	stayed_time = Time.new - start_time
+	time_passed = Time.new - start_time
 	remaining.each do |user|
-		user.enter if user.readyToEnter(stayed_time)
-		user.leave if user.readyToLeave(stayed_time)
+		user.enter(time_passed) if user.readyToEnter(time_passed)
+		user.leave(time_passed) if user.readyToLeave(time_passed)
 	end
 	sleep 1
 end
