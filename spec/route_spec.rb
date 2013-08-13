@@ -83,5 +83,19 @@ describe Route do
 			expect(route.total_time).to eq(150 * 3 + 191 * 2)
 		end
 	end
+	describe "transfer_stations" do
+		it "should return empty when no need to transfer" do
+			route = Route.new([@station1])
+			expect(route.transfer_stations).to be_empty
+		end
+		it "should return station 2 when go from station 1 to 3" do
+			route = Route.new([@station1, @station2, @station3])
+			expect(route.transfer_stations).to eq([@station2])
+		end
+		it "should return station 1, 2 when go from station 4 to 3" do
+			route = Route.new([@station4, @station1, @station2, @station3])
+			expect(route.transfer_stations).to eq([@station1, @station2])
+		end
+	end
 
 end

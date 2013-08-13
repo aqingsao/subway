@@ -18,11 +18,13 @@ class Route
   end
   def transfer_stations
     previous_line = nil
+    previous_station = nil
     @line_stations.each_with_object([]) do |line_station, stations|
-      if previous_line.nil? || line_station.line != previous_line
+      if !previous_line.nil? && line_station.line != previous_line
         previous_line = line_station.line
-        stations << line_station.station 
+        stations << previous_station 
       end
+      previous_line, previous_station = line_station.line, line_station.station
     end
   end
   def ==(other)
