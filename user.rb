@@ -73,7 +73,7 @@ class UserFactory
 
 		station_most_in
 		station_most_out
-		station_transfer
+		station_most_transfer
 
 		last_leave_time = nil
 		max_stay_time = nil
@@ -126,7 +126,7 @@ class UserFactory
 		end
 		p "most out stations: #{most_out_stations.collect{|station| station.name}}, users count: #{most_out_users_count}"
 	end
-	def station_transfer
+	def station_most_transfer
 		transfer_station_with_users = {}
 		@users.each do |user|
 			user.route.transfer_stations.each do |station|
