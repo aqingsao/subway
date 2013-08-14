@@ -54,12 +54,14 @@ class CardNoGenerator
 end
 
 class DepartureTimeGenerator
-  def initialize(mean_time_in_seconds)
-    @mean_time_in_seconds = mean_time_in_seconds
-    @gaussian = Gaussian.new(0.0, mean_time_in_seconds/2.5)
+  attr_reader :mean_time
+  def initialize(user_count)
+    @mean_time = Math.log(user_count) * 130
+    @gaussian = Gaussian.new(0.0, mean_time/2.5)
   end
+
   def next
-    time = @gaussian.rand + @mean_time_in_seconds
+    time = @gaussian.rand + @mean_time
     time < 0 ? 0 : time
   end
 end

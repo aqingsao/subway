@@ -48,11 +48,11 @@ end
 
 class UserFactory
 	attr_reader :users
-	def initialize(graph, mean_time)
+	def initialize(graph, departure_time_generator)
 		@graph = graph
 		@users = []
 		@transfer_users = {}
-		@depare_time_generator = DepartureTimeGenerator.new(mean_time)
+		@departure_time_generator = departure_time_generator
 	end
 	def create_users(user_count, transfer_count)
 		routes = @graph.routes.find_all{|route| route.lines.length == transfer_count+1}
@@ -60,7 +60,7 @@ class UserFactory
 
 		@transfer_users[transfer_count] ||= []
 		user_count.times.each() do |i|
-			user = User.new(random(routes), @depare_time_generator.next)
+			user = User.new(random(routes), @departure_time_generator.next)
 			@users<<user
 			@transfer_users[transfer_count] << user
 		end
