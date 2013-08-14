@@ -74,8 +74,8 @@ class UserFactory
 			last_leave_time = user.leaveTime if last_leave_time.nil? || last_leave_time < user.leaveTime
 			max_stay_time = user.stay_time if max_stay_time.nil? || max_stay_time < user.stay_time		
 		end
-		SUMMARY_LOGGER.info "max time stayed in subway is #{max_stay_time}"
-		SUMMARY_LOGGER.info "last one to leave subway is #{last_leave_time}"
+		p "longest time that user will stay in subway is #{max_stay_time} seconds"
+		p "last one to leave subway is #{last_leave_time} seconds after, please wait..."
 	end
 	private 
 	def random(array)

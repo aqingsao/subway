@@ -51,6 +51,7 @@ p "Creating users finished, summary information is written into #{group_name}/su
 factory.summary
 
 # users enter and leave stations
+p "Subay is open, waiting for users to enter and leave..."
 start_time = Time.new
 while(not (remaining = factory.users.find_all{|user| !user.finished}).empty?)
 	time_passed = Time.new - start_time
@@ -60,4 +61,4 @@ while(not (remaining = factory.users.find_all{|user| !user.finished}).empty?)
 	end
 	sleep 1
 end
-p "All finished"
+p "All users have entered and left subway stations"
