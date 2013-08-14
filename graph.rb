@@ -37,11 +37,14 @@ class Graph < Array
     @routes.values.reject {|route| route.nil? || route.stations.length <= 1}
   end
   def routes_by_transer
-    @graph.routes.each_with_object([]) do |route, routes| 
+    @routes.each_with_object([]) do |route, routes| 
       transfer = route.lines.length - 1;
       routes[transfer] = 0 if routes[transfer].nil?
       routes[transfer] += 1
     end
+  end
+  def max_transfer
+    @routes.values.collect{|route| route.lines.length-1}.max
   end
   private
   def connect_mutually(src, dst, length = 2.5)
