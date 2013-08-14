@@ -17,7 +17,8 @@ user_count = 1000032
 time_per_station = 150
 time_per_transfer = 191
 graph = Graph.new subway, time_per_station, time_per_transfer
-puts "Loading subway as graph finished..."
+puts "Loading subway as graph finished, the maximum transfer count is #{graph.max_transfer}"
+
 
 factory = UserFactory.new graph, DepartureTimeGenerator.new(user_count)
 factory.create_users((user_count * 0.05).ceil, 0)
