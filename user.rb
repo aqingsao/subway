@@ -1,10 +1,4 @@
 require 'logger'
-LOGGER = Logger.new(STDOUT)
-LOGGER = Logger.new('group1/subway.log', 'daily')
-LOGGER.datetime_format = "%Y-%m-%d\T%H:%M:%S"
-LOGGER.formatter = proc { |severity, datetime, progname, msg|
-  "#{datetime}: #{msg}\n"
-}
 
 class Card
 	attr_reader :number
@@ -20,7 +14,6 @@ class User
 		@enterTime, @leaveTime = enterTime, enterTime + @route.total_time
 		@entered, @left = false
 	end
-
 	def finished
 		@entered && @left
 	end
