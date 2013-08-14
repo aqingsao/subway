@@ -28,6 +28,7 @@ LOGGER.datetime_format = "%Y-%m-%d\T%H:%M:%S"
 LOGGER.formatter = proc { |severity, datetime, progname, msg|
   "#{datetime}: #{msg}\n"
 }
+SUMMARY_LOGGER = Logger.new("#{group_name}/summary.log", 'daily')
 
 # Loading subway txt
 subway = SubwayHelper.load("#{group_name}/subway.txt")
@@ -46,7 +47,7 @@ PortionByTransferGenerator.portions(graph.max_transfer_times, user_count).each_w
 	factory.create_users(portion, index)
 end
 
-p "Creating users finished, here's a quicks summary..."
+p "Creating users finished, summary information is written into #{group_name}/summary.log..."
 factory.summary
 
 # users enter and leave stations

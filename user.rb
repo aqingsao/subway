@@ -21,7 +21,7 @@ class User
 		@leaveTime - @enterTime
 	end
 	def enter(time_passed)
-		@actual_enterTime = 
+		@actual_enterTime = time_passed
 		LOGGER.info sprintf("user entered station #{@route.stations.first.number} with card number #{@card.number} and amount %.2f", @card.amount)
 		@entered = true
 	end
@@ -30,7 +30,7 @@ class User
 	end
 	def leave(time_passed)
 		@card.amount = @card.amount - 2
-		p "expected: [#{@enterTime}, #{@leaveTime}], actual: [#{@actual_enterTime}, #{time_passed}]"
+		p "in subway expected: [#{@enterTime}, #{@leaveTime}], actual: [#{@actual_enterTime}, #{time_passed}]"
 		LOGGER.info sprintf("user left station #{@route.stations.last.number} with card number #{@card.number} and amount %.2f", @card.amount)
 		@left = true
 	end
@@ -59,9 +59,9 @@ class UserFactory
 		end
 	end
 	def summary
-		p "users count: #{users.length}"
+		SUMMARY_LOGGER.info "users count: #{users.length}"
 		@transfer_users.each_pair do |transfer_count, users|
-			p "transfer count: #{transfer_count}, users count: #{users.length}"
+			SUMMARY_LOGGER.info "transfer count: #{transfer_count}, users count: #{users.length}"
 		end
 
 		station_most_in
@@ -74,8 +74,8 @@ class UserFactory
 			last_leave_time = user.leaveTime if last_leave_time.nil? || last_leave_time < user.leaveTime
 			max_stay_time = user.stay_time if max_stay_time.nil? || max_stay_time < user.stay_time		
 		end
-		p "max time stayed in subway is #{max_stay_time}"
-		p "last one to leave subway is #{last_leave_time}"
+		SUMMARY_LOGGER.info "max time stayed in subway is #{max_stay_time}"
+		SUMMARY_LOGGER.info "last one to leave subway is #{last_leave_time}"
 	end
 	private 
 	def random(array)
@@ -98,7 +98,7 @@ class UserFactory
 				most_in_stations << station
 			end
 		end
-		p "most in stations: #{most_in_stations.collect{|station| station.name}}, users count: #{most_in_users_count}"
+		SUMMARY_LOGGER.info "most in stations: #{most_in_stations.collect{|station| station.name}}, users count: #{most_in_users_count}"
 	end
 	def station_most_out
 		station_out_users = {}
@@ -117,7 +117,7 @@ class UserFactory
 				 most_out_stations << station
 			end
 		end
-		p "most out stations: #{most_out_stations.collect{|station| station.name}}, users count: #{most_out_users_count}"
+		SUMMARY_LOGGER.info "most out stations: #{most_out_stations.collect{|station| station.name}}, users count: #{most_out_users_count}"
 	end
 	def station_most_transfer
 		transfer_station_with_users = {}
@@ -137,7 +137,7 @@ class UserFactory
 				 most_transfered_stations << station
 			end
 		end
-		p "most transfered stations: #{most_transfered_stations.collect{|station| station.name}}, users count: #{most_transfered_users_count}"
+		SUMMARY_LOGGER.info "most transfered stations: #{most_transfered_stations.collect{|station| station.name}}, users count: #{most_transfered_users_count}"
 
 	end
 end
