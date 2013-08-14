@@ -21,8 +21,8 @@ puts "Loading subway as graph finished, the maximum transfer count is #{graph.ma
 
 
 factory = UserFactory.new graph, DepartureTimeGenerator.new(user_count)
-[[0, 0.05], [1, 0.35], [2, 0.30], [3, 0.15], [4, 0.10], [5, 0.04], [6, 0.01]].each do |transfer_count, portion|
-	factory.create_users((user_count * portion).ceil, transfer_count)
+PortionByTransferGenerator.portions(graph.max_transfer, user_count).each_with_index do |portion, index|
+	factory.create_users(portion, index)
 end
 
 p "Creating users finished, here's a quicks summary..."
