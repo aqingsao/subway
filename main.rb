@@ -13,20 +13,20 @@ puts "Loading subway.txt finished..."
 # "5: 1378"
 # "6: 112"
 
-userCount = 1000032
+user_count = 1000032
 time_per_station = 150
 time_per_transfer = 191
 graph = Graph.new subway, time_per_station, time_per_transfer
 puts "Loading subway as graph finished..."
 
-factory = UserFactory.new graph, DepartureTimeGenerator.new(userCount)
-factory.create_users((userCount * 0.05).ceil, 0)
-factory.create_users((userCount * 0.35).ceil, 1)
-factory.create_users((userCount * 0.30).ceil, 2)
-factory.create_users((userCount * 0.15).ceil, 3)
-factory.create_users((userCount * 0.10).ceil, 4)
-factory.create_users((userCount * 0.04).ceil, 5)
-factory.create_users((userCount * 0.01).ceil, 6)
+factory = UserFactory.new graph, DepartureTimeGenerator.new(user_count)
+factory.create_users((user_count * 0.05).ceil, 0)
+factory.create_users((user_count * 0.35).ceil, 1)
+factory.create_users((user_count * 0.30).ceil, 2)
+factory.create_users((user_count * 0.15).ceil, 3)
+factory.create_users((user_count * 0.10).ceil, 4)
+factory.create_users((user_count * 0.04).ceil, 5)
+factory.create_users((user_count * 0.01).ceil, 6)
 
 p "Creating users finished, here's a quicks summary..."
 factory.summary
