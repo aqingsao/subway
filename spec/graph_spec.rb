@@ -38,9 +38,9 @@ describe Graph do
 			@graph.routes.length.should == 12
 		end
 	end
-	describe "max_transfer" do
-		it "should return 0 when no " do
-			expect(@graph.max_transfer).to be(2)
+	describe "max_transfer_times" do
+		it "should return 2 for this subway" do
+			expect(@graph.max_transfer_times).to be(2)
 		end
 	end
 end

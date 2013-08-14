@@ -17,11 +17,11 @@ user_count = 100
 time_per_station = 150
 time_per_transfer = 191
 graph = Graph.new subway, time_per_station, time_per_transfer
-puts "Loading subway as graph finished, the maximum transfer count is #{graph.max_transfer}"
+puts "Loading subway as graph finished, the maximum transfer count is #{graph.max_transfer_times}"
 
 
 factory = UserFactory.new graph, DepartureTimeGenerator.new(user_count)
-PortionByTransferGenerator.portions(graph.max_transfer, user_count).each_with_index do |portion, index|
+PortionByTransferGenerator.portions(graph.max_transfer_times, user_count).each_with_index do |portion, index|
 	factory.create_users(portion, index)
 end
 

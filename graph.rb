@@ -43,7 +43,7 @@ class Graph < Array
       routes[transfer] += 1
     end
   end
-  def max_transfer
+  def max_transfer_times
     @routes.values.collect{|route| route.lines.length-1}.max
   end
   private
