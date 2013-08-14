@@ -1,6 +1,21 @@
 require File.join(File.dirname(__FILE__), "spec_helper")
 require File.join(File.dirname(__FILE__), "../helper/helper")
 
+describe PortionByTransferGenerator do
+	describe "rand" do
+		it "return all 0 when given 0 users" do
+			portions = PortionByTransferGenerator.portions(6, 0)
+			expect(portions.length).to be(7)
+			portions.each{|p| expect(p).to be(0)}
+		end
+		it "sum of users should be 100 when given 100 users" do
+			portions = PortionByTransferGenerator.portions(6, 100)
+			expect(portions.length).to be(7)
+			expect(portions.inject{|sum, i| sum = sum + i}).to eq(100)
+		end
+	end
+end
+
 describe AmountGenerator do
 	describe "next" do
 		it "should generate random amount greater than 0" do
