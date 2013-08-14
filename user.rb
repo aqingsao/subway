@@ -1,6 +1,6 @@
 require 'logger'
 LOGGER = Logger.new(STDOUT)
-LOGGER = Logger.new('group1/production.log', 'daily')
+LOGGER = Logger.new('group1/subway.log', 'daily')
 LOGGER.datetime_format = "%Y-%m-%d\T%H:%M:%S"
 LOGGER.formatter = proc { |severity, datetime, progname, msg|
   "#{datetime}: #{msg}\n"
