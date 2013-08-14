@@ -67,13 +67,11 @@ class DepartureTimeGenerator
 end
 
 class PortionByTransferGenerator
-  def PortionByTransferGenerator.portions(transfer_count, user_count)
+  def PortionByTransferGenerator.portions(max_transfer_times, user_count)
     gaussian = Gaussian.new(1.8, 1.0)
 
-    user_count.times.each_with_object((transfer_count+1).times.each_with_object([]){|i, portions| portions[i]=0}) do |i, portions|
-      r = gaussian.rand.ceil
-      r = 0 if r < 0
-      r = transfer_count if r>transfer_count
+    user_count.times.each_with_object((max_transfer_times+1).times.each_with_object([]){|i, portions| portions[i]=0}) do |i, portions|
+      r = [[gaussian.rand.ceil, 0].max, max_transfer_times].min
       portions[r] += 1
     end
   end
